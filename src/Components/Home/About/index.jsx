@@ -5,7 +5,7 @@ import {
   Text
 } from './AboutStyles';
 
-import { BlackDividerTop } from '../ShapeDivider/index';
+import { BlackDividerTop } from '../../ShapeDivider/index';
 
 const AboutSection = () => {
   return (
