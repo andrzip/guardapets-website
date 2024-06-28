@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const Section = styled.section`
-  background-color: #fff;
-  color: #141414;
+  background-color: #234D20;
+  color: #fff;
 
   padding: 8% 5%;
   text-align: left;

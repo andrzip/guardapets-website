@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 export const Section = styled.section`
-  background-color: #141414;
+  background-color: #276123;
   color: #fff;
   padding: 8% 5%;
   text-align: left;
@@ -26,17 +26,17 @@ export const Text = styled.p`
 `;
 
 export const Button = styled.button`
-  background-color: #141414;
-  border-color: #fff;
-  color: #fff;
+  background-color: #276123;
+  border-color: #C9DF8A;
+  color: #C9DF8A;
   border-radius: 10px;
   cursor: pointer;
   font-size: 1.2rem;
   padding: 1rem 5%;
   transition: background-color 0.3s;
   &:hover {
-    background-color: #e6e6e6;
-    color: #141414;
+    background-color: #C9DF8A;
+    color: black;
   }
 `;
 

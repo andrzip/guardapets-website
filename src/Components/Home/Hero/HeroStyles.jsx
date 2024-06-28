@@ -7,7 +7,7 @@ export const Section = styled.section`
   align-items: center;
   justify-content: space-between;
   padding: 10% 5%;
-  background-color: #141414;
+  background-color: #fff;
 `;
 
 export const TextContainer = styled.div`
@@ -18,13 +18,11 @@ export const Heading = styled.h1`
   font-size: 3rem;
   line-height: 3rem;
   margin-bottom: 2%;
-  color: #ececec;
   font-weight: bold;
 `;
 
 export const Subheading = styled.p`
   font-size: 1.5rem;
-  color: #fff;
 `;
 
 export const ButtonContainer = styled.div`
@@ -32,30 +30,27 @@ export const ButtonContainer = styled.div`
 `;
 
 export const Button = styled.button`
-  color: #333;
   border: none;
-  padding: 1rem 2rem;
+  padding: 1rem 3.5rem;
   cursor: pointer;
   border-radius: 10px;
-  transition: background-color 0.3s;
   &:last-child {
     margin-right: 0;
   }
 `;
 
 export const DonateButton = styled(Button)`
-  background: none;
+  background-color: #F0F7DA;
   margin-right: 10px;
-  color: #fff;
   &:hover {
-    background-color: #202020;
+    background-color: #e6f1be;
   }
 `;
 
 export const AdoptButton = styled(Button)`
-  background-color: #fff;
+  background-color: #C9DF8A;
   &:hover {
-    background-color: #e6e6e6;
+    background-color: #aac268;
   }
 `;
 

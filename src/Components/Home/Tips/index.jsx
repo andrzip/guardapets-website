@@ -9,7 +9,7 @@ import {
 const TipsSection = () => {
   return (
     <Section>
-      <SectionTitle>CUIDADOS COM SEU PET</SectionTitle>
+      <SectionTitle>DICAS E ORIENTAÇÕES</SectionTitle>
       <CardWrapper>
         <Card
           title="Preparando a chegada"

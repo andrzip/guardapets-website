@@ -4,16 +4,15 @@ import { NavLink as Link } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 
 export const Nav = styled.nav`
-  background: #141414;
+  background: #234D20;
   height: 60px;
   display: flex;
   justify-content: space-between;
-  padding: 2.5% calc((100vw - 1000px) / 2);
-  z-index: 10;
+  padding: 20px;
 `;
 
 export const NavLink = styled(Link)`
-  color: #878787;
+  color: #fff;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -22,7 +21,7 @@ export const NavLink = styled(Link)`
   cursor: pointer;
 
   &.active {
-    color: #fff;
+    color: #cacaca;
   }
 `;
 
@@ -61,9 +60,9 @@ export const NavBtn = styled.nav`
 
 export const NavBtnSignin = styled(Link)`
   border-radius: 4px;
-  background: none;
+  background-color: #F0F7DA;
   padding: 10px 22px;
-  color: #fff;
+  color: black;
   outline: none;
   border: none;
   cursor: pointer;
@@ -74,15 +73,15 @@ export const NavBtnSignin = styled(Link)`
 
   &:hover {
     transition: all 0.2s ease-in-out;
-    background: #202020;
+    background: #e6f1be;
   }
 `;
 
 export const NavBtnSignup = styled(Link)`
   border-radius: 4px;
-  background: #fff;
+  background-color: #C9DF8A;
   padding: 10px 22px;
-  color: #000000;
+  color: black;
   outline: none;
   border: none;
   cursor: pointer;
@@ -93,7 +92,6 @@ export const NavBtnSignup = styled(Link)`
 
   &:hover {
     transition: all 0.2s ease-in-out;
-    background: #e6e6e6;
-    color: #010606;
+    background: #aac268;
   }
 `;

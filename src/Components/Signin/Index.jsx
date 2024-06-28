@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-import './Styles.css';
+import { Container, GeneralContainer, TextContainer, FormContainer, Title, Subtitle, Input, TextLink, StyledLink, Button, ButtonGroup } from './SigninStyles';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -26,39 +25,41 @@ const Index = () => {
   };
 
   return (
-    <div className="container c-signin-body position-absolute top-50 start-50 translate-middle h-75">
-      <div className="col-5 text-center position-absolute top-50 start-0 translate-middle-y">
-        <h1 className="display-4 fw-bold">Fazer Login</h1>
-        <p className="fs-5 fw-bold">Entre com sua conta GuardaPets</p>
-      </div>
+    <Container>
+      <GeneralContainer>
 
-      <div className="col-5 me-5 position-fixed top-50 end-0 translate-middle-y">
-        <input
-          type="email"
-          className="form-control"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <TextContainer>
+          <Title>Fazer login</Title>
+          <Subtitle>Entre com sua conta GuardaPets</Subtitle>
+        </TextContainer>
 
-        <input
-          type="password"
-          className="form-control mt-3"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <FormContainer>
+          <Input
+            type="email"
+            placeholder="E-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <Input
+            type="password"
+            placeholder="Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        <p>Esqueceu a senha? <a href="/">Redefinir senha</a></p>
+          <TextLink>
+            Esqueceu sua senha? <StyledLink to="/">Redefinir senha</StyledLink>
+          </TextLink>
+          <ButtonGroup>
+            <Button href='/signup'>Criar uma conta</Button>
+            <Button primary onClick={handleSignin}>Entrar</Button>
+          </ButtonGroup>
+        </FormContainer>
 
-        <div className="text-end">
-          <a className='btn' href='/Signup'>Criar uma conta</a>
-          <button onClick={handleSignin} className='btn btn-primary'>Entrar</button>
-        </div>
-      </div>
-    </div>
+      </GeneralContainer>
+    </Container>
   );
 };
 
