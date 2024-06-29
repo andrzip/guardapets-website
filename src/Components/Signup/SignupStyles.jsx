@@ -1,4 +1,3 @@
-// SignupStyles.jsx
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import backgroundImage from '../../Assets/background-sig.jpg';

@@ -16,11 +16,11 @@ const Index = () => {
     }
 
     try {
-      const response = await axios.post('https://guardapet-api.vercel.app/users/signin', { email, password });
+      const response = await axios.post('https://guardapets-api.vercel.app/users/signin', { email, password });
       alert('Acesso autorizado!');
       navigate('/');
     } catch (err) {
-      alert(err.response.data);
+      alert(err.message);
     }
   };
 
