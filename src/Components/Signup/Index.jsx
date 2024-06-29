@@ -23,7 +23,7 @@ const Signup = () => {
 		}
 
 		try {
-			const response = await axios.post('https://guardapet-api.vercel.app/users/signup', { name, email, password, phone, doc, birthdate, address, state, city });
+			const response = await axios.post('https://guardapets-api.vercel.app/users/signup', { name, email, password, phone, doc, birthdate, address, state, city });
 			if (response.status !== 200) throw new Error('Erro ao cadastrar usuário');
 			alert('Usuário cadastrado com sucesso!');
 			navigate('/');
