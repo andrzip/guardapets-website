@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { NavLink as Link } from 'react-router-dom';
-
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaUserCircle } from 'react-icons/fa';
 
 export const Nav = styled.nav`
   background: #234D20;
@@ -12,7 +11,7 @@ export const Nav = styled.nav`
 `;
 
 export const NavLink = styled(Link)`
-  color: #fff;
+  color: white;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -27,7 +26,7 @@ export const NavLink = styled(Link)`
 
 export const Bars = styled(FaBars)`
   display: none;
-  color: #fff;
+  color: white;
 
   @media screen and (max-width: 768px) {
     display: block;
@@ -94,4 +93,10 @@ export const NavBtnSignup = styled(Link)`
     transition: all 0.2s ease-in-out;
     background: #aac268;
   }
+`;
+
+export const ProfileIcon = styled(FaUserCircle)`
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
 `;

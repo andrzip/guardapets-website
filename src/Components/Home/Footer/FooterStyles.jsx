@@ -6,6 +6,7 @@ export const FooterContainer = styled.footer`
   text-align: center;
   position: relative;
   bottom: 0;
+  background-color: #f7f8ff;
 `;
 
 export const FooterText = styled.p`

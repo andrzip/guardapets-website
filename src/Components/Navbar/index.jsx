@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../Context/AuthContext';
 import {
     Nav,
     NavLink,
@@ -8,8 +9,11 @@ import {
     NavBtnSignin,
     NavBtnSignup
 } from './NavbarStyles';
+import ProfileButton from './ProfileButton.jsx';
 
 const Navbar = () => {
+    const { isAuthenticated } = useContext(AuthContext);
+
     return (
         <>
             <Nav>
@@ -32,12 +36,18 @@ const Navbar = () => {
                     </NavLink>
                 </NavMenu>
                 <NavBtn>
-                    <NavBtnSignin to='/signin'>Login</NavBtnSignin>
-                    <NavBtnSignup to='/signup'>Cadastro</NavBtnSignup>
+                    {isAuthenticated ? (
+                        <ProfileButton />
+                    ) : (
+                        <>
+                            <NavBtnSignin to='/signin'>Login</NavBtnSignin>
+                            <NavBtnSignup to='/signup'>Cadastro</NavBtnSignup>
+                        </>
+                    )}
                 </NavBtn>
             </Nav>
         </>
-    )
-}
+    );
+};
 
 export default Navbar;

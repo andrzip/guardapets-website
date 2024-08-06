@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import {  useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Container, GeneralContainer, TextContainer, FormContainer, Title, Subtitle, Input, TextLink, StyledLink, Button, ButtonGroup } from './SigninStyles';
+import { AuthContext } from '../../Context/AuthContext';
 
 const Index = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,23 +18,22 @@ const Index = () => {
     }
 
     try {
-      const response = await axios.post('https://guardapets-api.vercel.app/users/signin', { email, password });
+      const response = await axios.post('http://localhost:3001/users/signin', { email, password });
       alert('Acesso autorizado!');
+      login();
       navigate('/');
     } catch (err) {
-      alert(err.message);
+      alert("Acesso negado!");
     }
   };
 
   return (
     <Container>
       <GeneralContainer>
-
         <TextContainer>
           <Title>Fazer login</Title>
           <Subtitle>Entre com sua conta GuardaPets</Subtitle>
         </TextContainer>
-
         <FormContainer>
           <Input
             type="email"
@@ -48,7 +49,6 @@ const Index = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-
           <TextLink>
             Esqueceu sua senha? <StyledLink to="/">Redefinir senha</StyledLink>
           </TextLink>
@@ -57,7 +57,6 @@ const Index = () => {
             <Button primary onClick={handleSignin}>Entrar</Button>
           </ButtonGroup>
         </FormContainer>
-
       </GeneralContainer>
     </Container>
   );
