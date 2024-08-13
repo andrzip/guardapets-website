@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-// Styled Components
 export const Section = styled.section`
   display: flex;
   flex-direction: row;
@@ -11,6 +10,7 @@ export const Section = styled.section`
 `;
 
 export const TextContainer = styled.div`
+  flex: 1;
   max-width: 50%;
 `;
 
@@ -55,12 +55,13 @@ export const AdoptButton = styled(Button)`
 `;
 
 export const ImageContainer = styled.div`
+  flex: 1;
   display: flex;
-  flex-direction: column;
-  width: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const ImagePlaceholder = styled.div`
-  background-image: url("https://via.placeholder.com/600x300");
-  height: 300px;
+export const Image = styled.img`
+  max-width: 100%;
+  border-radius: 10px;
 `;

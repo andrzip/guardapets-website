@@ -8,7 +8,7 @@ import {
   DonateButton,
   AdoptButton,
   ImageContainer,
-  ImagePlaceholder
+  Image
 } from './HeroStyles';
 
 const HeroSection = () => {
@@ -25,7 +25,7 @@ const HeroSection = () => {
         </ButtonContainer>
       </TextContainer>
       <ImageContainer>
-        <ImagePlaceholder />
+        <Image src="https://via.placeholder.com/600x300" alt="hero-img" />
       </ImageContainer>
     </Section>
   );
