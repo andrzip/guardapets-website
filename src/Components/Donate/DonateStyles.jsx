@@ -2,15 +2,14 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
-  	display: flex;
-  	align-items: center;
-  	height: calc(100vh - 60px);
-  	padding: 20px;
+    display: flex;
+    align-items: center;
+    height: calc(100vh - 60px);
+    padding: 20px;
 `;
 
-
 export const FormWrapper = styled.div`
-	background: #234D20;
+    background: #234D20;
     padding: 20px;
     border-radius: 10px;
     border: 1px solid black;
@@ -20,7 +19,7 @@ export const FormWrapper = styled.div`
 `;
 
 export const Title = styled.h1`
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     color: white;
 `;
 
@@ -28,7 +27,7 @@ export const FormCol = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-`
+`;
 
 export const FormRow = styled.div`
     flex: 1;
@@ -36,14 +35,17 @@ export const FormRow = styled.div`
     flex-direction: row;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input.attrs(props => ({
+    as: props.type === 'textarea' ? 'textarea' : 'input'
+}))`
     width: 100%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
-	background-color: white;
+    background-color: white;
     margin-bottom: 10px;
-	margin-right: 10px;
+    resize: ${props => (props.type === 'textarea' ? 'none' : 'auto')};
+    height: ${props => (props.type === 'textarea' ? '100%' : 'auto')};
 `;
 
 export const TextLink = styled.p`
@@ -69,10 +71,9 @@ export const Button = styled.button`
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
 
     &:hover {
-        transition: all 0.2s ease-in-out;
         background-color: #aac268;
     }
 `;

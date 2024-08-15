@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Section = styled.section`
   display: flex;
@@ -15,7 +16,7 @@ export const TextContainer = styled.div`
 
 export const Heading = styled.h1`
   font-size: 3rem;
-  line-height: 3rem;
+  line-height: 1.2;
   margin-bottom: 2%;
   font-weight: bold;
 `;
@@ -28,26 +29,30 @@ export const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
-export const Button = styled.button`
+const BaseButton = styled(Link)`
   border: none;
   padding: 1rem 3.5rem;
   cursor: pointer;
   border-radius: 10px;
-  &:last-child {
-    margin-right: 0;
-  }
+  text-decoration: none;
+  text-align: center;
+  color: black;
+  display: inline-block;
+  transition: background-color 0.3s ease;
 `;
 
-export const DonateButton = styled(Button)`
+export const DonateButton = styled(BaseButton)`
   background-color: #F0F7DA;
   margin-right: 10px;
+
   &:hover {
     background-color: #e6f1be;
   }
 `;
 
-export const AdoptButton = styled(Button)`
+export const AdoptButton = styled(BaseButton)`
   background-color: #C9DF8A;
+
   &:hover {
     background-color: #aac268;
   }
