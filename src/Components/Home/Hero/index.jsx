@@ -22,7 +22,7 @@ const HeroSection = () => {
           Unidos em um propósito: promover uma adoção responsável e espalhar o amor incondicional pelos animais.
         </Subheading>
         <ButtonContainer>
-          <DonateButton>Quero doar</DonateButton>
+          <DonateButton to="/doar">Quero doar</DonateButton>
           <AdoptButton to="/adotar">Quero adotar</AdoptButton>
         </ButtonContainer>
       </TextContainer>

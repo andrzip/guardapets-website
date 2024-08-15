@@ -21,8 +21,8 @@ export const FormWrapper = styled.div`
     text-align: center;
 `;
 
-export const Title = styled.h2`
-    margin-bottom: 20px;
+export const Title = styled.h1`
+    margin-bottom: 30px;
     color: white;
 `;
 
