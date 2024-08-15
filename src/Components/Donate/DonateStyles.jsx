@@ -38,7 +38,6 @@ export const FormRow = styled.div`
 export const Input = styled.input.attrs(props => ({
     as: props.type === 'textarea' ? 'textarea' : 'input'
 }))`
-    width: 100%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
@@ -46,6 +45,7 @@ export const Input = styled.input.attrs(props => ({
     margin-bottom: 10px;
     resize: ${props => (props.type === 'textarea' ? 'none' : 'auto')};
     height: ${props => (props.type === 'textarea' ? '100%' : 'auto')};
+    width: ${props => (props.type === 'textarea' ? 'none' : '100%')};
 `;
 
 export const TextLink = styled.p`

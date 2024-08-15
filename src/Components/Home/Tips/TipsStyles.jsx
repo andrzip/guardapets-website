@@ -6,7 +6,6 @@ export const Section = styled.section`
   align-items: center;
   padding: 20px;
   width: 100%;
-  background-color: #f7f8ff;
 `;
 
 export const SectionTitle = styled.h1`

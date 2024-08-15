@@ -6,7 +6,6 @@ export const Section = styled.section`
   align-items: center;
   justify-content: space-between;
   padding: 10% 5%;
-  background-color: #f7f8ff;
 `;
 
 export const TextContainer = styled.div`
