@@ -48,6 +48,7 @@ const Donate = () => {
 
                     <FormCol>
                         <Input
+                            style={{ marginLeft: '10px' }}
                             type="textarea"
                             placeholder="Insira uma descrição sobre o animal..."
                         />
