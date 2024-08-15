@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Section = styled.section`
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 10% 5%;

@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 export const Container = styled.div`
   height: calc(100vh - 60px);
   display: flex;
-  justify-content: center;
   align-items: center;
   background: url(${backgroundImage}) no-repeat center center fixed;
   background-size: cover;

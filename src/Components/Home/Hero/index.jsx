@@ -1,4 +1,6 @@
 import React from 'react';
+import { NavLink as Link } from 'react-router-dom';
+
 import {
   Section,
   TextContainer,
@@ -21,7 +23,7 @@ const HeroSection = () => {
         </Subheading>
         <ButtonContainer>
           <DonateButton>Quero doar</DonateButton>
-          <AdoptButton>Quero adotar</AdoptButton>
+          <AdoptButton to="/adotar">Quero adotar</AdoptButton>
         </ButtonContainer>
       </TextContainer>
       <ImageContainer>

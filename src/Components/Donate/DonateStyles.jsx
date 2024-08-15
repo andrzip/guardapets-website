@@ -1,18 +1,16 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import backgroundImage from '../../Assets/background-sig.jpg';
 
 export const Container = styled.div`
-    display: flex;
-    align-items: center;
-    height: calc(100vh - 60px);
-    background: url(${backgroundImage}) no-repeat center center fixed; 
-    background-size: cover;
-    padding: 20px;
+  	display: flex;
+  	align-items: center;
+  	height: calc(100vh - 60px);
+  	padding: 20px;
 `;
 
+
 export const FormWrapper = styled.div`
-    background: #3f753b84;
+	background: #234D20;
     padding: 20px;
     border-radius: 10px;
     border: 1px solid black;
@@ -21,22 +19,31 @@ export const FormWrapper = styled.div`
     text-align: center;
 `;
 
-export const Title = styled.h2`
+export const Title = styled.h1`
     margin-bottom: 20px;
     color: white;
 `;
 
-export const FormRow = styled.div`
+export const FormCol = styled.div`
+    flex: 1;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+`
+
+export const FormRow = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: row;
 `;
 
 export const Input = styled.input`
-    width: ${(props) => (props.fullWidth ? '100%' : '49.8%')};
+    width: 100%;
     padding: 10px;
     border: 1px solid black;
     border-radius: 5px;
+	background-color: white;
     margin-bottom: 10px;
+	margin-right: 10px;
 `;
 
 export const TextLink = styled.p`
