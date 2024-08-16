@@ -10,6 +10,8 @@ import Parceiros from './Routes/Parceiros';
 import Sobre from './Routes/Sobre';
 import Profile from './Routes/Profile';
 
+import PrivateRoute from './Components/PrivateRoute/index';
+
 import Navbar from './Components/Navbar/index';
 import { AuthProvider } from './Context/AuthContext';
 
@@ -22,10 +24,10 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/adotar" element={<Adotar />} />
-        <Route path="/doar" element={<Doar />} />
+        <Route path="/doar" element={<PrivateRoute><Doar /></PrivateRoute>} />
         <Route path="/parceiros" element={<Parceiros />} />
         <Route path="/sobre" element={<Sobre />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
       </Routes>
     </AuthProvider>
   );

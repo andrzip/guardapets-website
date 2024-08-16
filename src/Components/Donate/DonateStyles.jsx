@@ -48,6 +48,15 @@ export const Input = styled.input.attrs(props => ({
     width: ${props => (props.type === 'textarea' ? 'none' : '100%')};
 `;
 
+export const Select = styled.select`
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: white;
+    margin-bottom: 10px;
+    width: 100%;
+`;
+
 export const TextLink = styled.p`
     margin-top: 25px;
     text-align: left;
