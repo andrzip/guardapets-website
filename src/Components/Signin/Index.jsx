@@ -8,17 +8,19 @@ const Index = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user_email, setUserEmail] = useState('');
+  const [user_password, setUserPassword] = useState('');
 
   const handleSignin = async () => {
-    if (!email || !password) {
+    if (!user_email || !user_password) {
       alert('Preencha todos os campos!');
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:3001/users/signin', { email, password });
+      await axios.post('http://localhost:3001/users/signin',
+        { user_email, user_password });
+
       alert('Acesso autorizado!');
       login();
       navigate('/');
@@ -38,15 +40,15 @@ const Index = () => {
           <Input
             type="email"
             placeholder="E-mail"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={user_email}
+            onChange={(e) => setUserEmail(e.target.value)}
             required
           />
           <Input
             type="password"
             placeholder="Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={user_password}
+            onChange={(e) => setUserPassword(e.target.value)}
             required
           />
           <TextLink>

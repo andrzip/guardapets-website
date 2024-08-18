@@ -1,29 +1,39 @@
-// index.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Container, FormWrapper, Title, FormRow, Input, Button, TextLink, StyledLink } from './SignupStyles';
 
 const Signup = () => {
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [phone, setPhone] = useState('');
-	const [doc, setDoc] = useState('');
-	const [birthdate, setBirthdate] = useState('');
-	const [address, setAddress] = useState('');
-	const [state, setState] = useState('');
-	const [city, setCity] = useState('');
+	const [user_name, setUserName] = useState('');
+	const [user_email, setUserEmail] = useState('');
+	const [user_password, setUserPassword] = useState('');
+	const [user_phone, setUserPhone] = useState('');
+	const [user_doc, setUserDoc] = useState('');
+	const [user_birthdate, setUserBirthdate] = useState('');
+	const [user_address, setUserAddress] = useState('');
+	const [user_state, setUserState] = useState('');
+	const [user_city, setUserCity] = useState('');
 	const navigate = useNavigate();
 
 	const handleSignup = async () => {
-		if (!email || !password) {
+		if (!user_email || !user_password) {
 			alert('Preencha todos os campos');
 			return;
 		}
 
 		try {
-			const response = await axios.post('http://localhost:3001/users/signup', { name, email, password, phone, doc, birthdate, address, state, city });
+			const response = await axios.post('http://localhost:3001/users/signup',
+				{
+					user_name,
+					user_email,
+					user_password,
+					user_phone,
+					user_doc,
+					user_birthdate,
+					user_address,
+					user_state,
+					user_city
+				});
 			if (response.status !== 200) throw new Error('Erro ao cadastrar usuário');
 			alert('Usuário cadastrado com sucesso!');
 			navigate('/');
@@ -40,8 +50,8 @@ const Signup = () => {
 					<Input
 						type="text"
 						placeholder="Nome completo"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
+						value={user_name}
+						onChange={(e) => setUserName(e.target.value)}
 						fullWidth
 					/>
 				</FormRow>
@@ -49,35 +59,35 @@ const Signup = () => {
 					<Input
 						type="email"
 						placeholder="E-mail"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						value={user_email}
+						onChange={(e) => setUserEmail(e.target.value)}
 					/>
 					<Input
 						type="tel"
 						placeholder="Celular Whatsapp"
-						value={phone}
-						onChange={(e) => setPhone(e.target.value)}
+						value={user_phone}
+						onChange={(e) => setUserPhone(e.target.value)}
 					/>
 				</FormRow>
 				<FormRow>
 					<Input
 						type="text"
 						placeholder="RG/CPF"
-						value={doc}
-						onChange={(e) => setDoc(e.target.value)}
+						value={user_doc}
+						onChange={(e) => setUserDoc(e.target.value)}
 					/>
 					<Input
 						type="date"
-						value={birthdate}
-						onChange={(e) => setBirthdate(e.target.value)}
+						value={user_birthdate}
+						onChange={(e) => setUserBirthdate(e.target.value)}
 					/>
 				</FormRow>
 				<FormRow>
 					<Input
 						type="text"
 						placeholder="Endereço completo"
-						value={address}
-						onChange={(e) => setAddress(e.target.value)}
+						value={user_address}
+						onChange={(e) => setUserAddress(e.target.value)}
 						fullWidth
 					/>
 				</FormRow>
@@ -85,22 +95,22 @@ const Signup = () => {
 					<Input
 						type="text"
 						placeholder="Estado"
-						value={state}
-						onChange={(e) => setState(e.target.value)}
+						value={user_state}
+						onChange={(e) => setUserState(e.target.value)}
 					/>
 					<Input
 						type="text"
 						placeholder="Cidade"
-						value={city}
-						onChange={(e) => setCity(e.target.value)}
+						value={user_city}
+						onChange={(e) => setUserCity(e.target.value)}
 					/>
 				</FormRow>
 				<FormRow>
 					<Input
 						type="password"
 						placeholder="Senha"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						value={user_password}
+						onChange={(e) => setUserPassword(e.target.value)}
 						fullWidth
 					/>
 				</FormRow>
