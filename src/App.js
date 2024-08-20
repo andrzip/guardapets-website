@@ -16,6 +16,7 @@ import Navbar from './Components/Navbar/index';
 import { AuthProvider } from './Context/AuthContext';
 
 function App() {
+
   return (
     <AuthProvider>
       <Navbar />

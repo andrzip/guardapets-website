@@ -1,42 +1,50 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 import { Container, FormWrapper, Title, FormCol, FormRow, Input, Select, TextLink, StyledLink, Button } from './DonateStyles';
 
 const Donate = () => {
-    const [nome, setNome] = useState('');
-    const [idade, setIdade] = useState('');
-    const [sexo, setSexo] = useState('');
-    const [tipo, setTipo] = useState('');
-    const [porte, setPorte] = useState('');
-    const [imagem, setImagem] = useState('');
-    const [descricao, setDescricao] = useState('');
+    const [animal_name, setAnimalName] = useState('');
+    const [animal_age, setAnimalAge] = useState('');
+    const [animal_gender, setAnimalGender] = useState('');
+    const [animal_type, setAnimalType] = useState('');
+    const [animal_size, setAnimalSize] = useState('');
+    const [animal_picurl, setAnimalPicUrl] = useState('');
+    const [animal_desc, setAnimalDesc] = useState('');
 
     const navigate = useNavigate();
 
-    const handleDonate = () => {
-        if (!nome || !idade || !sexo || !tipo || !porte || !imagem || !descricao) {
+    const handleDonate = async () => {
+        if (!animal_name || !animal_age || !animal_gender || !animal_type || !animal_size || !animal_picurl || !animal_desc) {
             return alert('Preencha todos os campos');
         }
 
         try {
-            const response = axios.post('http://localhost:3001/donate', {
-                nome,
-                idade,
-                sexo,
-                tipo,
-                porte,
-                imagem,
-                descricao
+            const accessToken = Cookies.get('accessToken');
+            const decodedToken = jwtDecode(accessToken);
+            const userId = decodedToken.user_id;
+
+            const response = await axios.post('http://localhost:3001/animals/add', {
+                user_id: userId,
+                animal_name,
+                animal_age,
+                animal_type,
+                animal_gender,
+                animal_size,
+                animal_picurl: "https://example.com/rex.jpg",
+                animal_desc
             });
+
             if (response.status !== 200) throw new Error('Erro ao doar animal');
-            alert('Animal enviado para analise');
+            alert('Animal enviado para análise');
             navigate('/');
         } catch (error) {
             alert(error.message);
         }
     }
+
     return (
         <Container>
             <FormWrapper>
@@ -47,21 +55,21 @@ const Donate = () => {
                             <Input
                                 type="text"
                                 placeholder="Nome"
-                                value={nome}
-                                onChange={e => setNome(e.target.value)}
+                                value={animal_name}
+                                onChange={e => setAnimalName(e.target.value)}
                             />
                         </FormRow>
                         <FormRow>
                             <Input
                                 type="text"
                                 placeholder="Idade"
-                                value={idade}
-                                onChange={e => setIdade(e.target.value)}
+                                value={animal_age}
+                                onChange={e => setAnimalAge(e.target.value)}
                             />
                         </FormRow>
                         <FormRow>
-                            <Select value={tipo} onChange={e => setTipo(e.target.value)}>
-                                <option value="" disabled selected>Tipo</option>
+                            <Select value={animal_type} onChange={e => setAnimalType(e.target.value)}>
+                                <option value="" disabled>Tipo</option>
                                 <option value="Cachorro">Cachorro</option>
                                 <option value="Gato">Gato</option>
                                 <option value="Ave">Ave</option>
@@ -69,15 +77,15 @@ const Donate = () => {
                             </Select>
                         </FormRow>
                         <FormRow>
-                            <Select value={sexo} onChange={e => setSexo(e.target.value)}>
-                                <option value="" disabled selected>Sexo</option>
+                            <Select value={animal_gender} onChange={e => setAnimalGender(e.target.value)}>
+                                <option value="" disabled>Sexo</option>
                                 <option value="Macho">Macho</option>
                                 <option value="Fêmea">Fêmea</option>
                             </Select>
                         </FormRow>
                         <FormRow>
-                            <Select value={porte} onChange={e => setPorte(e.target.value)}>
-                                <option value="" disabled selected>Porte</option>
+                            <Select value={animal_size} onChange={e => setAnimalSize(e.target.value)}>
+                                <option value="" disabled>Porte</option>
                                 <option value="Pequeno">Pequeno</option>
                                 <option value="Médio">Médio</option>
                                 <option value="Grande">Grande</option>
@@ -86,9 +94,8 @@ const Donate = () => {
                         <FormRow>
                             <Input
                                 type="file"
-                                placeholder="Imagem"
-                                value={imagem}
-                                onChange={e => setImagem(e.target.value)}
+                                accept="image/*"
+                                onChange={e => setAnimalPicUrl(e.target.files[0])}
                             />
                         </FormRow>
                     </FormCol>
@@ -98,8 +105,8 @@ const Donate = () => {
                             style={{ marginLeft: '10px' }}
                             type="textarea"
                             placeholder="Insira uma descrição sobre o animal..."
-                            value={descricao}
-                            onChange={e => setDescricao(e.target.value)}
+                            value={animal_desc}
+                            onChange={e => setAnimalDesc(e.target.value)}
                         />
                     </FormCol>
                 </FormRow>
