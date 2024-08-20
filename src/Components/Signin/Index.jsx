@@ -1,33 +1,48 @@
-import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { Container, GeneralContainer, TextContainer, FormContainer, Title, Subtitle, Input, TextLink, StyledLink, Button, ButtonGroup } from './SigninStyles';
-import { AuthContext } from '../../Context/AuthContext';
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { Api } from "../../Services/Api/ApiConfig";
+import Cookies from "js-cookie";
+import {
+  Container,
+  GeneralContainer,
+  TextContainer,
+  FormContainer,
+  Title,
+  Subtitle,
+  Input,
+  TextLink,
+  StyledLink,
+  Button,
+  ButtonGroup,
+} from "./SigninStyles";
+import { AuthContext } from "../../Context/AuthContext";
 
 const Index = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
-  const [user_email, setUserEmail] = useState('');
-  const [user_password, setUserPassword] = useState('');
+  const [user_email, setUserEmail] = useState("");
+  const [user_password, setUserPassword] = useState("");
 
   const handleSignin = async () => {
     if (!user_email || !user_password) {
-      alert('Preencha todos os campos!');
+      alert("Preencha todos os campos!");
       return;
     }
 
-    await axios.post('http://localhost:3001/users/signin',
-      { user_email, user_password }).then((response) => {
-        Cookies.set('accessToken', response.data.accessToken, { expires: 1 });
-        console.log(Cookies.get());
-        alert(response.data.message);
-        login();
-        navigate('/');
-      }).catch((error) => {
-        alert(error.message);
-      })
+    try {
+      const response = await Api.post("/users/signin", {
+        user_email,
+        user_password,
+      });
+      Cookies.set("accessToken", response.data.accessToken, { expires: 1 });
+      console.log(Cookies.get());
+      alert(response.data.message);
+      login();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -56,8 +71,10 @@ const Index = () => {
             Esqueceu sua senha? <StyledLink to="/">Redefinir senha</StyledLink>
           </TextLink>
           <ButtonGroup>
-            <Button href='/signup'>Criar uma conta</Button>
-            <Button primary onClick={handleSignin}>Entrar</Button>
+            <Button href="/signup">Criar uma conta</Button>
+            <Button primary onClick={handleSignin}>
+              Entrar
+            </Button>
           </ButtonGroup>
         </FormContainer>
       </GeneralContainer>
