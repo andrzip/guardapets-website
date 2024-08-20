@@ -33,7 +33,7 @@ const Donate = () => {
                 animal_type,
                 animal_gender,
                 animal_size,
-                animal_picurl: "https://example.com/rex.jpg",
+                animal_picurl,
                 animal_desc
             });
 

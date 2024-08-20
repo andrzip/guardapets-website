@@ -1,23 +1,24 @@
 import { React, useContext } from 'react';
 import { AuthContext } from '../Context/AuthContext';
+import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
-  const navigate = useNavigate();
-  const { logout } = useContext(AuthContext);
+  const navigation = useNavigate();
+  const { logout: signOut } = useContext(AuthContext);
 
-  const sair = () => {
-    logout();
-    alert("Você saiu da conta!");
-    navigate("/");
-  }
+  const handleSignOut = () => {
+    Cookies.remove('accessToken');
+    signOut();
+    navigation('/');
+  };
 
   return (
     <>
       <p>Profile</p>
-      <button onClick={sair}>Sair da Conta</button>
+      <button onClick={handleSignOut}>Log out</button>
     </>
-  )
-}
+  );
+};
 
 export default Profile
