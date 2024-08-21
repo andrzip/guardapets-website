@@ -1,5 +1,6 @@
 import axios from "axios";
 
 export const Api = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: "https://73xwj4-3001.csb.app",
+  withCredentials: true,
 });
