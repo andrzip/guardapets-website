@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Api } from "../../Services/Api/ApiConfig";
-import Cookies from "js-cookie";
 import {
   Container,
   GeneralContainer,
@@ -35,13 +34,16 @@ const Index = () => {
         user_email,
         user_password,
       });
-      Cookies.set("accessToken", response.data.accessToken, { expires: 1 });
-      console.log(Cookies.get());
-      alert(response.data.message);
-      login();
-      navigate("/");
+
+      if (response.status === 200) {
+        alert(response.data.message);
+        login();
+        navigate("/");
+      } else {
+        alert("Falha ao realizar o login. Tente novamente.");
+      }
     } catch (error) {
-      console.log(error);
+      alert("Credenciais de login incorretas");
     }
   };
 
