@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import Adopt from "../Components/Adopt/index";
 
 const Adotar = () => {
-  return (
-    <div>Adotar</div>
-  )
-}
+  return <Adopt />;
+};
 
-export default Adotar
+export default Adotar;
