@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Section = styled.section`
   background-color: #276123;
@@ -24,10 +25,10 @@ export const Text = styled.p`
   line-height: 1.5;
 `;
 
-export const Button = styled.button`
-  background-color: #276123;
-  border-color: #C9DF8A;
+export const Button = styled(Link)`
   color: #C9DF8A;
+  text-decoration: none;
+  border: 2px solid #C9DF8A;
   border-radius: 10px;
   cursor: pointer;
   font-size: 1.2rem;
