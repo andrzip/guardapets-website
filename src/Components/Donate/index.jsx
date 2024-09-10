@@ -64,7 +64,7 @@ const Donate = () => {
 
   return (
     <Container>
-      <FormWrapper>
+      <FormWrapper encType="multipart/form-data">
         <Title>Formulário de Doação</Title>
         <FormRow>
           <FormCol>

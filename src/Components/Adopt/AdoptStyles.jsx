@@ -67,7 +67,7 @@ export const AnimalList = () => {
       {animals.map((animal) => (
         <AnimalCard key={animal.animal_id}>
           <AnimalImage
-            src="https://encurtador.com.br/4dH6I"
+            src={animal.animal_picurl}
             alt={animal.animal_name}
           />
           <h3 style={{ textAlign: "center" }}>{animal.animal_name}</h3>
@@ -76,7 +76,7 @@ export const AnimalList = () => {
             <strong>Idade:</strong> {animal.animal_age} anos <br />
             <strong>Porte:</strong> {animal.animal_size}
           </p>
-          <AdoptButton>Adotar</AdoptButton>
+          <AdoptButton>Ver mais</AdoptButton>
         </AnimalCard>
       ))}
     </AnimalListContainer>
