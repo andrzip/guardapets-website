@@ -23,6 +23,7 @@ export const Title = styled.h1`
 export const Text = styled.p`
   font-size: 1.2rem;
   line-height: 1.5;
+  margin-bottom: 2rem;
 `;
 
 export const Button = styled(Link)`
