@@ -1,16 +1,16 @@
 import './App.css';
 import { Route, Routes } from "react-router-dom";
 
-import Home from './Routes/Home';
-import Signup from './Routes/Signup';
-import Signin from './Routes/Signin';
-import Adotar from './Routes/Adotar';
-import Doar from './Routes/Doar';
-import Parceiros from './Routes/Parceiros';
-import Sobre from './Routes/Sobre';
-import Profile from './Routes/Profile';
+import Home from './Routes/HomeRoute';
+import Signup from './Routes/SignupRoute';
+import Signin from './Routes/SigninRoute';
+import Adotar from './Routes/AdoptRoute';
+import Doar from './Routes/DonateRoute';
+import Parceiros from './Routes/PartnersRoute';
+import Sobre from './Routes/AboutRoute';
+import Profile from './Routes/ProfileRoute';
 
-import PrivateRoute from './Components/PrivateRoute/index';
+import { PrivateRoute } from './Services/PrivateRoute';
 
 import Navbar from './Components/Navbar/index';
 import { AuthProvider } from './Context/AuthContext';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Api } from "../../Services/Api/ApiConfig";
+import { Api } from "../../Services/ApiConfig";
 
 const AnimalListContainer = styled.div`
   padding: 20px;
@@ -72,9 +72,9 @@ export const AnimalList = () => {
           />
           <h3 style={{ textAlign: "center" }}>{animal.animal_name}</h3>
           <p>
-            <strong>Tipo:</strong> {animal.animal_type} <br />
-            <strong>Idade:</strong> {animal.animal_age} anos <br />
-            <strong>Porte:</strong> {animal.animal_size}
+            <strong>📌 Tipo:</strong> {animal.animal_type} <br />
+            <strong>🎂 Idade:</strong> {animal.animal_age} anos <br />
+            <strong>🐾 Porte:</strong> {animal.animal_size}
           </p>
           <AdoptButton>Ver mais</AdoptButton>
         </AnimalCard>
