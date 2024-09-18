@@ -9,6 +9,7 @@ import Doar from './Routes/DonateRoute';
 import Parceiros from './Routes/PartnersRoute';
 import Sobre from './Routes/AboutRoute';
 import Profile from './Routes/ProfileRoute';
+import Admin from './Routes/AdminRoute';
 
 import { PrivateRoute } from './Services/PrivateRoute';
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/parceiros" element={<Parceiros />} />
         <Route path="/sobre" element={<Sobre />} />
         <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </AuthProvider>
   );
