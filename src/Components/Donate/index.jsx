@@ -21,6 +21,7 @@ const Donate = () => {
   const [animal_gender, setAnimalGender] = useState("");
   const [animal_type, setAnimalType] = useState("");
   const [animal_size, setAnimalSize] = useState("");
+  const [animal_adress, setAnimalAddress] = useState("");
   const [animal_picurl, setAnimalPicUrl] = useState("");
   const [animal_desc, setAnimalDesc] = useState("");
 
@@ -33,6 +34,7 @@ const Donate = () => {
       !animal_gender ||
       !animal_type ||
       !animal_size ||
+      !animal_adress ||
       !animal_picurl ||
       !animal_desc
     ) {
@@ -48,6 +50,7 @@ const Donate = () => {
           animal_type,
           animal_gender,
           animal_size,
+          animal_adress,
           animal_picurl,
           animal_desc,
         },
@@ -122,6 +125,14 @@ const Donate = () => {
                 <option value="Médio">Médio</option>
                 <option value="Grande">Grande</option>
               </Select>
+            </FormRow>
+            <FormRow>
+              <Input
+                type="text"
+                placeholder="Residência"
+                value={animal_adress}
+                onChange={(e) => setAnimalAddress(e.target.value)}
+              />
             </FormRow>
             <FormRow>
               <Input

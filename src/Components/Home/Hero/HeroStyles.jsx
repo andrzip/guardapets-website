@@ -25,14 +25,14 @@ export const Subheading = styled.p`
 `;
 
 export const ButtonContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 1.25rem;
 `;
 
 const BaseButton = styled(Link)`
   border: none;
   padding: 1rem 3.5rem;
   cursor: pointer;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   text-decoration: none;
   text-align: center;
   color: black;
@@ -42,7 +42,7 @@ const BaseButton = styled(Link)`
 
 export const DonateButton = styled(BaseButton)`
   background-color: #F0F7DA;
-  margin-right: 10px;
+  margin-right: 0.625rem;
 
   &:hover {
     background-color: #e6f1be;
@@ -66,5 +66,5 @@ export const ImageContainer = styled.div`
 
 export const Image = styled.img`
   max-width: 100%;
-  border-radius: 10px;
+  border-radius: 0.625rem;
 `;

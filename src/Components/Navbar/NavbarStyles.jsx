@@ -4,10 +4,10 @@ import { FaBars, FaUserCircle } from 'react-icons/fa';
 
 export const Nav = styled.nav`
   background: #234D20;
-  height: 60px;
+  height: 3.75rem;
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  padding: 1.25rem;
 `;
 
 export const NavLink = styled(Link)`
@@ -42,7 +42,8 @@ export const Bars = styled(FaBars)`
 export const NavMenu = styled.div`
   display: flex;
   align-items: center;
-  margin-right: -24px;
+  margin-right: -1.5rem;
+
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -51,16 +52,17 @@ export const NavMenu = styled.div`
 export const NavBtn = styled.nav`
   display: flex;
   align-items: center;
-  margin-right: 24px;
+  margin-right: 1.5rem;
+
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
 export const NavBtnSignin = styled(Link)`
-  border-radius: 4px;
+  border-radius: 0.25rem;
   background-color: #F0F7DA;
-  padding: 10px 22px;
+  padding: 0.625rem 1.375rem;
   color: black;
   outline: none;
   border: none;
@@ -68,7 +70,7 @@ export const NavBtnSignin = styled(Link)`
   transition: all 0.2s ease-in-out;
   text-decoration: none;
 
-  margin-left: 24px;
+  margin-left: 1.5rem;
 
   &:hover {
     transition: all 0.2s ease-in-out;
@@ -77,9 +79,9 @@ export const NavBtnSignin = styled(Link)`
 `;
 
 export const NavBtnSignup = styled(Link)`
-  border-radius: 4px;
+  border-radius: 0.25rem;
   background-color: #C9DF8A;
-  padding: 10px 22px;
+  padding: 0.625rem 1.375rem;
   color: black;
   outline: none;
   border: none;
@@ -87,7 +89,7 @@ export const NavBtnSignup = styled(Link)`
   transition: all 0.2s ease-in-out;
   text-decoration: none;
 
-  margin-left: 24px;
+  margin-left: 1.5rem;
 
   &:hover {
     transition: all 0.2s ease-in-out;

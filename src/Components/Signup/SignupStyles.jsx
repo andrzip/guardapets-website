@@ -5,24 +5,24 @@ import backgroundImage from '../../Assets/background-sig.jpg';
 export const Container = styled.div`
     display: flex;
     align-items: center;
-    height: calc(100vh - 60px);
+    height: calc(100vh - 3.75rem);
     background: url(${backgroundImage}) no-repeat center center fixed; 
     background-size: cover;
-    padding: 20px;
+    padding: 1.25rem;
 `;
 
 export const FormWrapper = styled.div`
     background: #3f753b84;
-    padding: 20px;
-    border-radius: 10px;
-    border: 1px solid black;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1.25rem;
+    border-radius: 0.625rem;
+    border: 0.063rem solid black;
+    box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
     width: 100%;
     text-align: center;
 `;
 
 export const Title = styled.h1`
-    margin-bottom: 30px;
+    margin-bottom: 1.875rem;
     color: white;
 `;
 
@@ -33,14 +33,14 @@ export const FormRow = styled.div`
 
 export const Input = styled.input`
     width: ${(props) => (props.fullWidth ? '100%' : '49.8%')};
-    padding: 10px;
-    border: 1px solid black;
-    border-radius: 5px;
-    margin-bottom: 10px;
+    padding: 0.625rem;
+    border: 0.063rem solid black;
+    border-radius: 0.3125rem;
+    margin-bottom: 0.625rem;
 `;
 
 export const TextLink = styled.p`
-    margin-top: 25px;
+    margin-top: 1.5625rem;
     text-align: left;
     color: black;
 `;
@@ -56,11 +56,11 @@ export const StyledLink = styled(Link)`
 
 export const Button = styled.button`
     width: 100%;
-    padding: 10px;
+    padding: 0.625rem;
     background-color: #C9DF8A;
     color: black;
     border: none;
-    border-radius: 5px;
+    border-radius: 0.3125rem;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 

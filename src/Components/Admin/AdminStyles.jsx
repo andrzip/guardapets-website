@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const AnimalsListContainer = styled.div`
   display: grid;
-  gap: 20px;
+  gap: 1.25rem;
   margin: 2% 3%;
   justify-items: center;
 `;
@@ -10,28 +10,28 @@ export const AnimalsListContainer = styled.div`
 export const AnimalCard = styled.div`
   display: flex;
   background: #f9f9f9;
-  border: 1px solid #ddd;
+  border: 0.0625rem solid #ddd;
   width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
   justify-content: space-between;
-  padding: 15px;
+  padding: 0.9375rem;
 `;
 
 export const AnimalRow = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  padding: 10px;
+  padding: 0.625rem;
   width: 49%;
 `;
 
 export const AnimalImage = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 9.375rem;
+  height: 9.375rem;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 10px;
+  border-radius: 0.5rem;
+  margin-bottom: 0.625rem;
 `;
 
 export const CardColumn = styled.div`
@@ -42,15 +42,14 @@ export const CardColumn = styled.div`
 
 export const AnimalText = styled.div`
   justify-content: center;
-  padding-left: 20px;
-  
+  padding-left: 1.25rem;
 `;
 
 export const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  gap: 10px;
+  gap: 0.625rem;
   margin-left: 1%;
 `;
 
@@ -58,14 +57,14 @@ export const Button = styled.button`
   background-color: ${({ color }) => color || '#4caf50'};
   border: none;
   color: white;
-  padding: 10px;
+  padding: 0.625rem;
   text-align: center;
   display: inline-block;
-  font-size: 14px;
-  border-radius: 4px;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
   cursor: pointer;
-  width: 100px; /* Ajuste de largura dos botões */
-  height: 40px; /* Ajuste de altura dos botões */
+  width: 6.25rem;
+  height: 2.5rem;
 
   &:hover {
     opacity: 0.8;
@@ -73,7 +72,7 @@ export const Button = styled.button`
 `;
 
 export const Separator = styled.div`
-  width: .5px; /* Largura da linha */
-  background-color: grey; /* Cor da linha */
-  height: 100%; /* Altura para cobrir todo o card */
+  width: 0.03125rem;
+  background-color: grey;
+  height: 100%;
 `;

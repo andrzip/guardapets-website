@@ -23,18 +23,19 @@ export const Title = styled.h1`
 export const Text = styled.p`
   font-size: 1.2rem;
   line-height: 1.5;
-  margin-bottom: 2.2 rem;
+  margin-bottom: 2.2rem;
 `;
 
 export const Button = styled(Link)`
   color: #C9DF8A;
   text-decoration: none;
-  border: 2px solid #C9DF8A;
-  border-radius: 10px;
+  border: 0.125rem solid #C9DF8A;
+  border-radius: 0.625rem;
   cursor: pointer;
   font-size: 1.2rem;
   padding: 1rem 5%;
   transition: background-color 0.3s;
+  
   &:hover {
     background-color: #C9DF8A;
     color: black;
@@ -50,5 +51,5 @@ export const ImageContainer = styled.div`
 
 export const Image = styled.img`
   max-width: 100%;
-  border-radius: 10px;
+  border-radius: 0.625rem;
 `;
