@@ -24,11 +24,12 @@ export const AnimalRow = styled.div`
   justify-content: flex-start;
   padding: 0.625rem;
   width: 49%;
+  align-items: center;
 `;
 
 export const AnimalImage = styled.img`
-  width: 9.375rem;
-  height: 9.375rem;
+  width: 10rem;
+  height: 10rem;
   object-fit: cover;
   border-radius: 0.5rem;
   margin-bottom: 0.625rem;
@@ -49,7 +50,6 @@ export const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  gap: 0.625rem;
   margin-left: 1%;
 `;
 

@@ -16,50 +16,47 @@ import {
 } from "./DonateStyles";
 
 const Donate = () => {
-  const [animal_name, setAnimalName] = useState("");
-  const [animal_age, setAnimalAge] = useState("");
-  const [animal_gender, setAnimalGender] = useState("");
-  const [animal_type, setAnimalType] = useState("");
-  const [animal_size, setAnimalSize] = useState("");
-  const [animal_adress, setAnimalAddress] = useState("");
-  const [animal_picurl, setAnimalPicUrl] = useState("");
-  const [animal_desc, setAnimalDesc] = useState("");
+  const [formData, setFormData] = useState({
+    animal_name: "",
+    animal_age: "",
+    animal_gender: "",
+    animal_type: "",
+    animal_size: "",
+    animal_address: "",
+    animal_picurl: null,
+    animal_desc: "",
+  });
 
   const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: files ? files[0] : value,
+    }));
+  };
+
+  const validateForm = () => {
+    return Object.values(formData).every((field) => field);
+  };
+
   const handleDonate = async () => {
-    if (
-      !animal_name ||
-      !animal_age ||
-      !animal_gender ||
-      !animal_type ||
-      !animal_size ||
-      !animal_adress ||
-      !animal_picurl ||
-      !animal_desc
-    ) {
+    if (!validateForm()) {
       return alert("Preencha todos os campos");
     }
 
+    const data = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      data.append(key, value);
+    });
+
     try {
-      const response = await Api.post(
-        "/animals/add",
-        {
-          animal_name,
-          animal_age,
-          animal_type,
-          animal_gender,
-          animal_size,
-          animal_adress,
-          animal_picurl,
-          animal_desc,
-        },
-        { withCredentials: true },
-      ); // Garante que o cookie JWT seja enviado com a requisição
+      const response = await Api.post("/animals/add", data);
 
       if (response.status !== 200) throw new Error("Erro ao doar animal");
       alert("Animal enviado para análise");
-      navigate("/");
+      //navigate("/");
     } catch (error) {
       alert(error.message);
     }
@@ -74,27 +71,28 @@ const Donate = () => {
             <FormRow>
               <Input
                 type="text"
+                name="animal_name"
                 placeholder="Nome"
-                value={animal_name}
-                onChange={(e) => setAnimalName(e.target.value)}
+                value={formData.animal_name}
+                onChange={handleChange}
               />
             </FormRow>
             <FormRow>
               <Input
                 type="text"
+                name="animal_age"
                 placeholder="Idade"
-                value={animal_age}
-                onChange={(e) => setAnimalAge(e.target.value)}
+                value={formData.animal_age}
+                onChange={handleChange}
               />
             </FormRow>
             <FormRow>
               <Select
-                value={animal_type}
-                onChange={(e) => setAnimalType(e.target.value)}
+                name="animal_type"
+                value={formData.animal_type}
+                onChange={handleChange}
               >
-                <option value="" disabled>
-                  Tipo
-                </option>
+                <option value="" disabled>Tipo</option>
                 <option value="Cachorro">Cachorro</option>
                 <option value="Gato">Gato</option>
                 <option value="Ave">Ave</option>
@@ -103,24 +101,22 @@ const Donate = () => {
             </FormRow>
             <FormRow>
               <Select
-                value={animal_gender}
-                onChange={(e) => setAnimalGender(e.target.value)}
+                name="animal_gender"
+                value={formData.animal_gender}
+                onChange={handleChange}
               >
-                <option value="" disabled>
-                  Sexo
-                </option>
+                <option value="" disabled>Sexo</option>
                 <option value="Macho">Macho</option>
                 <option value="Fêmea">Fêmea</option>
               </Select>
             </FormRow>
             <FormRow>
               <Select
-                value={animal_size}
-                onChange={(e) => setAnimalSize(e.target.value)}
+                name="animal_size"
+                value={formData.animal_size}
+                onChange={handleChange}
               >
-                <option value="" disabled>
-                  Porte
-                </option>
+                <option value="" disabled>Porte</option>
                 <option value="Pequeno">Pequeno</option>
                 <option value="Médio">Médio</option>
                 <option value="Grande">Grande</option>
@@ -129,16 +125,18 @@ const Donate = () => {
             <FormRow>
               <Input
                 type="text"
+                name="animal_address"
                 placeholder="Residência"
-                value={animal_adress}
-                onChange={(e) => setAnimalAddress(e.target.value)}
+                value={formData.animal_address}
+                onChange={handleChange}
               />
             </FormRow>
             <FormRow>
               <Input
                 type="file"
+                name="animal_picurl"
                 accept="image/*"
-                onChange={(e) => setAnimalPicUrl(e.target.files[0])}
+                onChange={handleChange}
               />
             </FormRow>
           </FormCol>
@@ -147,17 +145,16 @@ const Donate = () => {
             <Input
               style={{ marginLeft: "10px" }}
               type="textarea"
+              name="animal_desc"
               placeholder="Insira uma descrição sobre o animal..."
-              value={animal_desc}
-              onChange={(e) => setAnimalDesc(e.target.value)}
+              value={formData.animal_desc}
+              onChange={handleChange}
             />
           </FormCol>
         </FormRow>
         <TextLink>
           Ao clicar em Doar, você concorda com nossos{" "}
-          <StyledLink to="/">
-            Termos, Política de Privacidade e Política de Cookies.
-          </StyledLink>
+          <StyledLink to="/">Termos, Política de Privacidade e Política de Cookies.</StyledLink>
         </TextLink>
         <Button onClick={handleDonate}>Doar</Button>
       </FormWrapper>
