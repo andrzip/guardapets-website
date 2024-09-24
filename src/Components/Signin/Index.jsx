@@ -16,24 +16,33 @@ import {
 } from "./SigninStyles";
 import { AuthContext } from "../../Context/AuthContext";
 
-const Index = () => {
+const Signin = () => {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
-  const [user_email, setUserEmail] = useState("");
-  const [user_password, setUserPassword] = useState("");
+  const [formData, setFormData] = useState({
+    user_email: "",
+    user_password: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSignin = async () => {
+    const { user_email, user_password } = formData;
+
     if (!user_email || !user_password) {
       alert("Preencha todos os campos!");
       return;
     }
 
     try {
-      const response = await Api.post("/users/signin", {
-        user_email,
-        user_password,
-      });
+      const response = await Api.post("/users/signin", { user_email, user_password });
 
       if (response.status === 200) {
         alert(response.data.message);
@@ -57,16 +66,18 @@ const Index = () => {
         <FormContainer>
           <Input
             type="email"
+            name="user_email"
             placeholder="E-mail"
-            value={user_email}
-            onChange={(e) => setUserEmail(e.target.value)}
+            value={formData.user_email}
+            onChange={handleInputChange}
             required
           />
           <Input
             type="password"
+            name="user_password"
             placeholder="Senha"
-            value={user_password}
-            onChange={(e) => setUserPassword(e.target.value)}
+            value={formData.user_password}
+            onChange={handleInputChange}
             required
           />
           <TextLink>
@@ -84,4 +95,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Signin;

@@ -13,35 +13,40 @@ import {
 } from "./SignupStyles";
 
 const Signup = () => {
-  const [user_name, setUserName] = useState("");
-  const [user_email, setUserEmail] = useState("");
-  const [user_password, setUserPassword] = useState("");
-  const [user_phone, setUserPhone] = useState("");
-  const [user_doc, setUserDoc] = useState("");
-  const [user_birthdate, setUserBirthdate] = useState("");
-  const [user_address, setUserAddress] = useState("");
-  const [user_state, setUserState] = useState("");
-  const [user_city, setUserCity] = useState("");
+  const [formData, setFormData] = useState({
+    user_name: "",
+    user_email: "",
+    user_password: "",
+    user_phone: "",
+    user_doc: "",
+    user_birthdate: "",
+    user_address: "",
+    user_state: "",
+    user_city: "",
+  });
+
   const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const validateForm = () => {
+    return Object.values(formData).every((field) => field);
+  };
+
   const handleSignup = async () => {
-    if (!user_email || !user_password) {
+    if (!validateForm()) {
       alert("Preencha todos os campos");
       return;
     }
 
     try {
-      const response = await Api.post("/users/signup", {
-        user_name,
-        user_email,
-        user_password,
-        user_phone,
-        user_doc,
-        user_birthdate,
-        user_address,
-        user_state,
-        user_city,
-      });
+      const response = await Api.post("/users/signup", formData);
       if (response.status !== 200) throw new Error("Erro ao cadastrar usuário");
       alert("Usuário cadastrado com sucesso!");
       navigate("/");
@@ -57,68 +62,77 @@ const Signup = () => {
         <FormRow>
           <Input
             type="text"
+            name="user_name"
             placeholder="Nome completo"
-            value={user_name}
-            onChange={(e) => setUserName(e.target.value)}
+            value={formData.user_name}
+            onChange={handleChange}
             fullWidth
           />
         </FormRow>
         <FormRow>
           <Input
             type="email"
+            name="user_email"
             placeholder="E-mail"
-            value={user_email}
-            onChange={(e) => setUserEmail(e.target.value)}
+            value={formData.user_email}
+            onChange={handleChange}
           />
           <Input
             type="tel"
+            name="user_phone"
             placeholder="Celular Whatsapp"
-            value={user_phone}
-            onChange={(e) => setUserPhone(e.target.value)}
+            value={formData.user_phone}
+            onChange={handleChange}
           />
         </FormRow>
         <FormRow>
           <Input
             type="text"
+            name="user_doc"
             placeholder="RG/CPF"
-            value={user_doc}
-            onChange={(e) => setUserDoc(e.target.value)}
+            value={formData.user_doc}
+            onChange={handleChange}
           />
           <Input
             type="date"
-            value={user_birthdate}
-            onChange={(e) => setUserBirthdate(e.target.value)}
+            name="user_birthdate"
+            value={formData.user_birthdate}
+            onChange={handleChange}
           />
         </FormRow>
         <FormRow>
           <Input
             type="text"
+            name="user_address"
             placeholder="Endereço completo"
-            value={user_address}
-            onChange={(e) => setUserAddress(e.target.value)}
+            value={formData.user_address}
+            onChange={handleChange}
             fullWidth
           />
         </FormRow>
         <FormRow>
           <Input
             type="text"
+            name="user_state"
             placeholder="Estado"
-            value={user_state}
-            onChange={(e) => setUserState(e.target.value)}
+            value={formData.user_state}
+            onChange={handleChange}
           />
           <Input
             type="text"
+            name="user_city"
             placeholder="Cidade"
-            value={user_city}
-            onChange={(e) => setUserCity(e.target.value)}
+            value={formData.user_city}
+            onChange={handleChange}
           />
         </FormRow>
         <FormRow>
           <Input
             type="password"
+            name="user_password"
             placeholder="Senha"
-            value={user_password}
-            onChange={(e) => setUserPassword(e.target.value)}
+            value={formData.user_password}
+            onChange={handleChange}
             fullWidth
           />
         </FormRow>
