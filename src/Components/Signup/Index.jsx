@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import InputMask from "react-input-mask";
 import { Api } from "../../Services/ApiConfig";
 import {
   Container,
@@ -18,29 +19,27 @@ const Signup = () => {
     user_email: "",
     user_password: "",
     user_phone: "",
-    user_doc: "",
+    user_cpf: "",
     user_birthdate: "",
     user_address: "",
     user_state: "",
     user_city: "",
+    user_cep: "",
   });
 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const validateForm = () => {
-    return Object.values(formData).every((field) => field);
+  const isFormValid = () => {
+    return Object.values(formData).every(Boolean);
   };
 
-  const handleSignup = async () => {
-    if (!validateForm()) {
+  const submitSignupForm = async () => {
+    if (!isFormValid()) {
       alert("Preencha todos os campos");
       return;
     }
@@ -77,22 +76,36 @@ const Signup = () => {
             value={formData.user_email}
             onChange={handleChange}
           />
-          <Input
-            type="tel"
-            name="user_phone"
-            placeholder="Celular Whatsapp"
+          <InputMask
+            mask="(99) 99999-9999"
             value={formData.user_phone}
             onChange={handleChange}
-          />
+          >
+            {(inputProps) => (
+              <Input
+                {...inputProps}
+                type="tel"
+                name="user_phone"
+                placeholder="Celular Whatsapp"
+              />
+            )}
+          </InputMask>
         </FormRow>
         <FormRow>
-          <Input
-            type="text"
-            name="user_doc"
-            placeholder="RG/CPF"
-            value={formData.user_doc}
+          <InputMask
+            mask="999.999.999-99"
+            value={formData.user_cpf}
             onChange={handleChange}
-          />
+          >
+            {(inputProps) => (
+              <Input
+                {...inputProps}
+                type="text"
+                name="user_cpf"
+                placeholder="CPF"
+              />
+            )}
+          </InputMask>
           <Input
             type="date"
             name="user_birthdate"
@@ -125,6 +138,20 @@ const Signup = () => {
             value={formData.user_city}
             onChange={handleChange}
           />
+          <InputMask
+            mask="99999-999"
+            value={formData.user_cep}
+            onChange={handleChange}
+          >
+            {(inputProps) => (
+              <Input
+                {...inputProps}
+                type="text"
+                name="user_cep"
+                placeholder="CEP"
+              />
+            )}
+          </InputMask>
         </FormRow>
         <FormRow>
           <Input
@@ -142,7 +169,7 @@ const Signup = () => {
             Termos, Política de Privacidade e Política de Cookies.
           </StyledLink>
         </TextLink>
-        <Button onClick={handleSignup}>Cadastrar</Button>
+        <Button onClick={submitSignupForm}>Cadastrar</Button>
       </FormWrapper>
     </Container>
   );
