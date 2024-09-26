@@ -38,12 +38,15 @@ const Donate = () => {
   };
 
   const validateForm = () => {
-    return Object.values(formData).every((field) => field);
+    const isValid = Object.values(formData).every(
+      (field) => field !== "" && field !== null
+    );
+    return isValid && formData.animal_picurl instanceof File;
   };
 
   const handleDonate = async () => {
     if (!validateForm()) {
-      return alert("Preencha todos os campos");
+      return alert("Preencha todos os campos corretamente");
     }
 
     const data = new FormData();
@@ -52,11 +55,13 @@ const Donate = () => {
     });
 
     try {
-      const response = await Api.post("/animals/add", data);
+      const response = await Api.post("/animals/add", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (response.status !== 200) throw new Error("Erro ao doar animal");
       alert("Animal enviado para análise");
-      //navigate("/");
+      navigate("/");
     } catch (error) {
       alert(error.message);
     }
@@ -92,7 +97,9 @@ const Donate = () => {
                 value={formData.animal_type}
                 onChange={handleChange}
               >
-                <option value="" disabled>Tipo</option>
+                <option value="" disabled>
+                  Tipo
+                </option>
                 <option value="Cachorro">Cachorro</option>
                 <option value="Gato">Gato</option>
                 <option value="Ave">Ave</option>
@@ -105,7 +112,9 @@ const Donate = () => {
                 value={formData.animal_gender}
                 onChange={handleChange}
               >
-                <option value="" disabled>Sexo</option>
+                <option value="" disabled>
+                  Sexo
+                </option>
                 <option value="Macho">Macho</option>
                 <option value="Fêmea">Fêmea</option>
               </Select>
@@ -116,7 +125,9 @@ const Donate = () => {
                 value={formData.animal_size}
                 onChange={handleChange}
               >
-                <option value="" disabled>Porte</option>
+                <option value="" disabled>
+                  Porte
+                </option>
                 <option value="Pequeno">Pequeno</option>
                 <option value="Médio">Médio</option>
                 <option value="Grande">Grande</option>
@@ -154,7 +165,9 @@ const Donate = () => {
         </FormRow>
         <TextLink>
           Ao clicar em Doar, você concorda com nossos{" "}
-          <StyledLink to="/">Termos, Política de Privacidade e Política de Cookies.</StyledLink>
+          <StyledLink to="/">
+            Termos, Política de Privacidade e Política de Cookies.
+          </StyledLink>
         </TextLink>
         <Button onClick={handleDonate}>Doar</Button>
       </FormWrapper>
