@@ -23,6 +23,7 @@ const Donate = () => {
     animal_type: "",
     animal_size: "",
     animal_address: "",
+    animal_cep: "",
     animal_picurl: null,
     animal_desc: "",
   });
@@ -139,6 +140,13 @@ const Donate = () => {
                 name="animal_address"
                 placeholder="Residência"
                 value={formData.animal_address}
+                onChange={handleChange}
+              />
+              <Input
+                type="text"
+                name="animal_cep"
+                placeholder="CEP"
+                value={formData.animal_cep}
                 onChange={handleChange}
               />
             </FormRow>
