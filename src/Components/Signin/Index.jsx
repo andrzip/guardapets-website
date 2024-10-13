@@ -56,6 +56,19 @@ const Signin = () => {
     }
   };
 
+  // Funções auxiliares para simplificar a renderizacao de campos
+  const renderInput = (type, name, placeholder, additionalProps = {}) => (
+      <Input
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        onChange={handleInputChange}
+        {...additionalProps}
+      />
+  );
+
+
+
   return (
     <Container>
       <GeneralContainer>
@@ -64,22 +77,8 @@ const Signin = () => {
           <Subtitle>Entre com sua conta GuardaPets</Subtitle>
         </TextContainer>
         <FormContainer>
-          <Input
-            type="email"
-            name="user_email"
-            placeholder="E-mail"
-            value={formData.user_email}
-            onChange={handleInputChange}
-            required
-          />
-          <Input
-            type="password"
-            name="user_password"
-            placeholder="Senha"
-            value={formData.user_password}
-            onChange={handleInputChange}
-            required
-          />
+          {renderInput("email", "user_email", "E-mail")}
+          {renderInput("password", "user_password", "Senha")}
           <TextLink>
             Esqueceu sua senha? <StyledLink to="/">Redefinir senha</StyledLink>
           </TextLink>

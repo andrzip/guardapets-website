@@ -2,6 +2,38 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Api } from "../../Services/ApiConfig";
 
+export const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1.25rem 0;
+  flex-wrap: wrap;
+`;
+
+export const Title = styled.h2`
+  margin: 0 0.625rem;
+`;
+
+export const Input = styled.input`
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+`;
+
+export const SearchButton = styled.button`
+  background-color: #4caf50; /* Cor do botão */
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3125rem;
+  cursor: pointer;
+  margin-left: 0.625rem; /* Espaçamento à esquerda do botão */
+
+  &:hover {
+    background-color: #45a049; /* Cor ao passar o mouse */
+  }
+`;
+
 const AnimalListContainer = styled.div`
   padding: 1.25rem;
   display: grid;
@@ -46,13 +78,14 @@ const AdoptButton = styled.button`
   }
 `;
 
-export const AnimalList = () => {
+export const AnimalList = ({ cep }) => {
   const [animals, setAnimals] = useState([]);
 
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
-        const response = await Api.get("/animals/list");
+        const endpoint = cep ? `/animals/list/${cep}` : '/animals/list';
+        const response = await Api.get(endpoint);
         setAnimals(response.data);
       } catch (error) {
         console.error("Erro ao buscar animais:", error);
@@ -60,7 +93,7 @@ export const AnimalList = () => {
     };
 
     fetchAnimals();
-  }, []);
+  }, [cep]);
 
   return (
     <AnimalListContainer>
@@ -75,7 +108,7 @@ export const AnimalList = () => {
             <strong>🎂 Idade:</strong> {animal.animal_age} anos <br />
             <strong>📌 Tipo:</strong> {animal.animal_type} <br />
             <strong>🧬 Gênero:</strong> {animal.animal_gender} <br />
-            <strong>🐾 Porte:</strong> {animal.animal_size} <br/>
+            <strong>🐾 Porte:</strong> {animal.animal_size} <br />
             <strong>🚩 Local:</strong> {animal.animal_address}
           </p>
           <AdoptButton>Ver mais</AdoptButton>

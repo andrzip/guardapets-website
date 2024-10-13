@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Api } from "../../Services/ApiConfig";
-
+import { z } from "zod";
 import {
   Container,
   FormWrapper,
@@ -14,6 +14,22 @@ import {
   StyledLink,
   Button,
 } from "./DonateStyles";
+
+// Schema de validação usando Zod
+const formSchema = z.object({
+  animal_name: z.string().nonempty("O campo 'nome' é obrigatório"),
+  animal_age: z.string().nonempty("O campo 'idade' é obrigatório"),
+  animal_gender: z.string().nonempty("O campo 'sexo' é obrigatório"),
+  animal_type: z.string().nonempty("O campo 'tipo' é obrigatório"),
+  animal_size: z.string().nonempty("O campo 'porte' é obrigatório"),
+  animal_address: z.string().nonempty("O campo 'residência' é obrigatório"),
+  animal_cep: z.string()
+    .nonempty("O campo 'CEP' é obrigatório")
+    .min(8, "O CEP deve ter pelo menos 8 caracteres")
+    .max(9, "O CEP deve ter no máximo 9 caracteres"),
+  animal_picurl: z.instanceof(File, { message: "O campo 'imagem' é obrigatório" }),
+  animal_desc: z.string().nonempty("O campo 'descrição' é obrigatório"),
+});
 
 const Donate = () => {
   const [formData, setFormData] = useState({
@@ -30,25 +46,28 @@ const Donate = () => {
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
+  // Função para atualizar o estado do formulário
+  const handleChange = ({ target: { name, value, files } }) => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: files ? files[0] : value,
     }));
   };
 
+  // Função para validar os dados do formulário
   const validateForm = () => {
-    const isValid = Object.values(formData).every(
-      (field) => field !== "" && field !== null
-    );
-    return isValid && formData.animal_picurl instanceof File;
+    try {
+      formSchema.parse(formData);
+      return true;
+    } catch (error) {
+      alert(error.errors[0].message);
+      return false;
+    }
   };
 
+  // Função para lidar com a doação
   const handleDonate = async () => {
-    if (!validateForm()) {
-      return alert("Preencha todos os campos corretamente");
-    }
+    if (!validateForm()) return;
 
     const data = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
@@ -68,98 +87,52 @@ const Donate = () => {
     }
   };
 
+
+  // Funções auxiliares para simplificar a renderização de campos
+  const renderInput = (type, name, placeholder, additionalProps = {}) => (
+    <FormRow>
+      <Input
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        onChange={handleChange}
+        {...additionalProps}
+      />
+    </FormRow>
+  );
+
+  const renderSelect = (name, placeholder, options) => (
+    <FormRow>
+      <Select name={name} onChange={handleChange} defaultValue="">
+        <option value="" disabled>
+          {placeholder}
+        </option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </Select>
+    </FormRow>
+  );
+
   return (
     <Container>
       <FormWrapper encType="multipart/form-data">
         <Title>Formulário de Doação</Title>
         <FormRow>
           <FormCol>
-            <FormRow>
-              <Input
-                type="text"
-                name="animal_name"
-                placeholder="Nome"
-                value={formData.animal_name}
-                onChange={handleChange}
-              />
+            {renderInput("text", "animal_name", "Nome")}
+            {renderInput("text", "animal_age", "Idade", handleChange)}
+            {renderSelect("animal_type", "Tipo", ["Cachorro", "Gato", "Ave", "Outro"])}
+            {renderSelect("animal_gender", "Sexo", ["Macho", "Fêmea"])}
+            {renderSelect("animal_size", "Porte", ["Pequeno", "Médio", "Grande"])}
+            <FormRow style={{ display: "flex", gap: "10px" }}>
+              {renderInput("text", "animal_address", "Residência")}
+              {renderInput("text", "animal_cep", "CEP")}
             </FormRow>
-            <FormRow>
-              <Input
-                type="text"
-                name="animal_age"
-                placeholder="Idade"
-                value={formData.animal_age}
-                onChange={handleChange}
-              />
-            </FormRow>
-            <FormRow>
-              <Select
-                name="animal_type"
-                value={formData.animal_type}
-                onChange={handleChange}
-              >
-                <option value="" disabled>
-                  Tipo
-                </option>
-                <option value="Cachorro">Cachorro</option>
-                <option value="Gato">Gato</option>
-                <option value="Ave">Ave</option>
-                <option value="Outro">Outro</option>
-              </Select>
-            </FormRow>
-            <FormRow>
-              <Select
-                name="animal_gender"
-                value={formData.animal_gender}
-                onChange={handleChange}
-              >
-                <option value="" disabled>
-                  Sexo
-                </option>
-                <option value="Macho">Macho</option>
-                <option value="Fêmea">Fêmea</option>
-              </Select>
-            </FormRow>
-            <FormRow>
-              <Select
-                name="animal_size"
-                value={formData.animal_size}
-                onChange={handleChange}
-              >
-                <option value="" disabled>
-                  Porte
-                </option>
-                <option value="Pequeno">Pequeno</option>
-                <option value="Médio">Médio</option>
-                <option value="Grande">Grande</option>
-              </Select>
-            </FormRow>
-            <FormRow>
-              <Input
-                type="text"
-                name="animal_address"
-                placeholder="Residência"
-                value={formData.animal_address}
-                onChange={handleChange}
-              />
-              <Input
-                type="text"
-                name="animal_cep"
-                placeholder="CEP"
-                value={formData.animal_cep}
-                onChange={handleChange}
-              />
-            </FormRow>
-            <FormRow>
-              <Input
-                type="file"
-                name="animal_picurl"
-                accept="image/*"
-                onChange={handleChange}
-              />
-            </FormRow>
+            {renderInput("file", "animal_picurl", "Imagem", { accept: "image/*" })}
           </FormCol>
-
           <FormCol>
             <Input
               style={{ marginLeft: "10px" }}
@@ -173,9 +146,7 @@ const Donate = () => {
         </FormRow>
         <TextLink>
           Ao clicar em Doar, você concorda com nossos{" "}
-          <StyledLink to="/">
-            Termos, Política de Privacidade e Política de Cookies.
-          </StyledLink>
+          <StyledLink to="/">Termos, Política de Privacidade e Política de Cookies.</StyledLink>
         </TextLink>
         <Button onClick={handleDonate}>Doar</Button>
       </FormWrapper>

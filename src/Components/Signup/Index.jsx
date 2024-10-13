@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
 import { Api } from "../../Services/ApiConfig";
+import { z } from "zod"; // Importando o Zod
 import {
   Container,
   FormWrapper,
@@ -12,6 +13,25 @@ import {
   TextLink,
   StyledLink,
 } from "./SignupStyles";
+
+// Definindo o esquema de validação usando Zod
+const formSchema = z.object({
+  user_name: z.string().nonempty("O campo 'nome' é obrigatório"),
+  user_email: z.string().email("Insira um e-mail válido").nonempty("O campo 'e-mail' é obrigatório"),
+  user_password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres").nonempty("O campo 'senha' é obrigatório"),
+  user_phone: z.string().nonempty("O campo 'celular' é obrigatório"),
+  user_cpf: z.string()
+    .nonempty("O campo 'CPF' é obrigatório")
+    .length(14, "O CPF deve ter exatamente 14 caracteres"),
+  user_birthdate: z.string().nonempty("O campo 'data de nascimento' é obrigatório"),
+  user_address: z.string().nonempty("O campo 'endereço' é obrigatório"),
+  user_state: z.string().nonempty("O campo 'estado' é obrigatório"),
+  user_city: z.string().nonempty("O campo 'cidade' é obrigatório"),
+  user_cep: z.string()
+    .nonempty("O campo 'CEP' é obrigatório")
+    .min(8, "O CEP deve ter pelo menos 8 caracteres")
+    .max(9, "O CEP deve ter no máximo 9 caracteres"),
+});
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -34,15 +54,18 @@ const Signup = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const isFormValid = () => {
-    return Object.values(formData).every(Boolean);
+  const validateForm = () => {
+    try {
+      formSchema.parse(formData);
+      return true;
+    } catch (error) {
+      alert(error.errors[0].message);
+      return false;
+    }
   };
 
   const submitSignupForm = async () => {
-    if (!isFormValid()) {
-      alert("Preencha todos os campos");
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
       const response = await Api.post("/users/signup", formData);
@@ -54,115 +77,47 @@ const Signup = () => {
     }
   };
 
+  // Funções auxiliares para simplificar a renderização de campos
+  const renderInput = (type, name, placeholder, additionalProps = {}) => (
+    <Input
+      type={type}
+      name={name}
+      placeholder={placeholder}
+      onChange={handleChange}
+      {...additionalProps}
+    />
+  );
+
+  const renderMaskedInput = (mask, name, placeholder) => (
+    <InputMask
+      mask={mask}
+      value={formData[name]}
+      onChange={handleChange}
+    >
+      {(inputProps) => renderInput("text", name, placeholder, inputProps)}
+    </InputMask>
+  );
+
   return (
     <Container>
       <FormWrapper>
         <Title>Crie sua Conta</Title>
+        {renderInput("text", "user_name", "Nome completo", { fullWidth: true })}
         <FormRow>
-          <Input
-            type="text"
-            name="user_name"
-            placeholder="Nome completo"
-            value={formData.user_name}
-            onChange={handleChange}
-            fullWidth
-          />
+          {renderInput("email", "user_email", "E-mail")}
+          {renderMaskedInput("(99) 99999-9999", "user_phone", "Celular Whatsapp")}
         </FormRow>
         <FormRow>
-          <Input
-            type="email"
-            name="user_email"
-            placeholder="E-mail"
-            value={formData.user_email}
-            onChange={handleChange}
-          />
-          <InputMask
-            mask="(99) 99999-9999"
-            value={formData.user_phone}
-            onChange={handleChange}
-          >
-            {(inputProps) => (
-              <Input
-                {...inputProps}
-                type="tel"
-                name="user_phone"
-                placeholder="Celular Whatsapp"
-              />
-            )}
-          </InputMask>
+          {renderMaskedInput("999.999.999-99", "user_cpf", "CPF")}
+          {renderInput("date", "user_birthdate", "")}
         </FormRow>
+        {renderInput("text", "user_address", "Endereço completo", { fullWidth: true })}
         <FormRow>
-          <InputMask
-            mask="999.999.999-99"
-            value={formData.user_cpf}
-            onChange={handleChange}
-          >
-            {(inputProps) => (
-              <Input
-                {...inputProps}
-                type="text"
-                name="user_cpf"
-                placeholder="CPF"
-              />
-            )}
-          </InputMask>
-          <Input
-            type="date"
-            name="user_birthdate"
-            value={formData.user_birthdate}
-            onChange={handleChange}
-          />
+          {renderInput("text", "user_state", "Estado")}
+          {renderInput("text", "user_city", "Cidade")}
+          {renderMaskedInput("99999-999", "user_cep", "CEP")}
         </FormRow>
-        <FormRow>
-          <Input
-            type="text"
-            name="user_address"
-            placeholder="Endereço completo"
-            value={formData.user_address}
-            onChange={handleChange}
-            fullWidth
-          />
-        </FormRow>
-        <FormRow>
-          <Input
-            type="text"
-            name="user_state"
-            placeholder="Estado"
-            value={formData.user_state}
-            onChange={handleChange}
-          />
-          <Input
-            type="text"
-            name="user_city"
-            placeholder="Cidade"
-            value={formData.user_city}
-            onChange={handleChange}
-          />
-          <InputMask
-            mask="99999-999"
-            value={formData.user_cep}
-            onChange={handleChange}
-          >
-            {(inputProps) => (
-              <Input
-                {...inputProps}
-                type="text"
-                name="user_cep"
-                placeholder="CEP"
-              />
-            )}
-          </InputMask>
-        </FormRow>
-        <FormRow>
-          <Input
-            type="password"
-            name="user_password"
-            placeholder="Senha"
-            value={formData.user_password}
-            onChange={handleChange}
-            fullWidth
-          />
-        </FormRow>
+        {renderInput("password", "user_password", "Senha", { fullWidth: true })}
         <TextLink>
           Ao clicar em Cadastrar, você concorda com nossos{" "}
           <StyledLink to="/">
