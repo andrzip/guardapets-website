@@ -18,9 +18,9 @@ const Navbar = () => {
         <>
             <Nav>
                 <NavLink to='/'>
-                    [LOGO]
+                    <img src="https://via.placeholder.com/32" alt="icon" width={"32px"}/>
                 </NavLink>
-                <Bars />
+                <Bars /> 
                 <NavMenu>
                     <NavLink to='/adotar' activeStyle>
                         Quero adotar

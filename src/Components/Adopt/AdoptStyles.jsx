@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Api } from "../../Services/ApiConfig";
+import { useNavigate } from "react-router-dom";
 
 export const HeaderContainer = styled.div`
   display: flex;
@@ -21,30 +22,30 @@ export const Input = styled.input`
 `;
 
 export const SearchButton = styled.button`
-  background-color: #4caf50; /* Cor do botão */
+  background-color: #4caf50;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 0.3125rem;
   cursor: pointer;
-  margin-left: 0.625rem; /* Espaçamento à esquerda do botão */
+  margin-left: 0.625rem;
 
   &:hover {
-    background-color: #45a049; /* Cor ao passar o mouse */
+    background-color: #45a049;
   }
 `;
 
 const AnimalListContainer = styled.div`
   padding: 1.25rem;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
   gap: 1.25rem;
   justify-items: center;
 `;
 
 const AnimalCard = styled.div`
   background: #f9f9f9;
-  border: 0.0625rem solid #ddd;
+  border: 1px solid #ddd;
   padding: 0.9375rem;
   width: 100%;
   max-width: 18.75rem;
@@ -52,6 +53,8 @@ const AnimalCard = styled.div`
   box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 `;
 
 const AnimalImage = styled.img`
@@ -80,6 +83,7 @@ const AdoptButton = styled.button`
 
 export const AnimalList = ({ cep }) => {
   const [animals, setAnimals] = useState([]);
+  const navigate = useNavigate(); // Inicializando useNavigate
 
   useEffect(() => {
     const fetchAnimals = async () => {
@@ -94,6 +98,10 @@ export const AnimalList = ({ cep }) => {
 
     fetchAnimals();
   }, [cep]);
+
+  const handleAdoptClick = (animalId) => {
+    navigate(`/animal/${animalId}`)
+  };
 
   return (
     <AnimalListContainer>
@@ -111,7 +119,9 @@ export const AnimalList = ({ cep }) => {
             <strong>🐾 Porte:</strong> {animal.animal_size} <br />
             <strong>🚩 Local:</strong> {animal.animal_address}
           </p>
-          <AdoptButton>Ver mais</AdoptButton>
+          <AdoptButton onClick={() => handleAdoptClick(animal.animal_id)}>
+            Ver mais
+          </AdoptButton>
         </AnimalCard>
       ))}
     </AnimalListContainer>

@@ -30,7 +30,8 @@ const Admin = () => {
   const updateAnimalStatus = async (url, id) => {
     try {
       await Api.put(url);
-      await fetchAnimals();  // Atualiza a lista de animais após a ação
+      await fetchAnimals();
+      alert("Situação atualizada!");
     } catch (error) {
       console.error(`Erro ao atualizar status do animal (id: ${id}):`, error);
     }
@@ -39,7 +40,8 @@ const Admin = () => {
   const handleDelete = async (id) => {
     try {
       await Api.delete(`/admin/delete/${id}`);
-      await fetchAnimals();  // Atualiza a lista após exclusão
+      await fetchAnimals();
+      alert("Situação atualizada!");
     } catch (error) {
       console.error("Erro ao excluir animal:", error);
     }
@@ -63,6 +65,7 @@ const Admin = () => {
                 <strong>Gênero:</strong> {animal.animal_gender} <br />
                 <strong>Estatura:</strong> {animal.animal_size} <br />
                 <strong>Residência:</strong> {animal.animal_address} <br />
+                <strong>CEP:</strong> {animal.animal_cep} <br />
                 <strong>Situação:</strong> {animal.animal_avaliable ? "Disponível" : "Indisponível"}
               </p>
             </AnimalText>

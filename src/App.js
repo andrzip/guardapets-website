@@ -8,9 +8,9 @@ import Adotar from './Routes/AdoptRoute';
 import Doar from './Routes/DonateRoute';
 import Parceiros from './Routes/PartnersRoute';
 import Sobre from './Routes/AboutRoute';
-import Profile from './Routes/ProfileRoute';
+import Perfil from './Routes/ProfileRoute';
 import Admin from './Routes/AdminRoute';
-
+import Contato from './Routes/ContactRoute';
 import { PrivateRoute } from './Services/PrivateRoute';
 
 import Navbar from './Components/Navbar/index';
@@ -29,7 +29,8 @@ function App() {
         <Route path="/doar" element={<PrivateRoute><Doar /></PrivateRoute>} />
         <Route path="/parceiros" element={<Parceiros />} />
         <Route path="/sobre" element={<Sobre />} />
-        <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path="/profile" element={<PrivateRoute><Perfil /></PrivateRoute>} />
+        <Route path="/animal/:id" element={<PrivateRoute><Contato /></PrivateRoute>} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </AuthProvider>

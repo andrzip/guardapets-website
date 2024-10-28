@@ -1,24 +1,10 @@
-import { React, useContext } from 'react';
-import { AuthContext } from '../Context/AuthContext';
-import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import { React } from 'react'
+import Profile from '../Components/Profile/index'
 
-const Profile = () => {
-  const navigation = useNavigate();
-  const { logout: signOut } = useContext(AuthContext);
-
-  const handleSignOut = () => {
-    Cookies.remove('accessToken');
-    signOut();
-    navigation('/');
-  };
-
+const Perfil = () => {
   return (
-    <>
-      <p>Profile</p>
-      <button onClick={handleSignOut}>Log out</button>
-    </>
-  );
+    <Profile />
+  )
 };
 
-export default Profile
+export default Perfil
