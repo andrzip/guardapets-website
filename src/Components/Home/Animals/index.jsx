@@ -21,7 +21,7 @@ const AnimalsSection = () => {
         <Button to="/adotar">Ver animais</Button>
       </TextContainer>
       <ImageContainer>
-        <Image src="https://via.placeholder.com/450x300" alt="Animais" />
+        <Image src="https://i.ibb.co/5X01wZB/dog.jpg" alt="Animais" />
       </ImageContainer>
     </Section>
   );

@@ -51,5 +51,6 @@ export const ImageContainer = styled.div`
 
 export const Image = styled.img`
   max-width: 100%;
+  box-shadow: 6px 10px 4rem 1px rgb(0 0 0);
   border-radius: 0.625rem;
 `;

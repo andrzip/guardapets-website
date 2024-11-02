@@ -18,7 +18,7 @@ const Navbar = () => {
         <>
             <Nav>
                 <NavLink to='/'>
-                    <img src="https://via.placeholder.com/32" alt="icon" width={"32px"}/>
+                    <img src="https://i.ibb.co/Lpb5x7x/image.png" alt="icon" width={"32px"}/>
                 </NavLink>
                 <Bars /> 
                 <NavMenu>

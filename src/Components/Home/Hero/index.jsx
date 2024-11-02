@@ -26,7 +26,7 @@ const HeroSection = () => {
         </ButtonContainer>
       </TextContainer>
       <ImageContainer>
-        <Image src="https://via.placeholder.com/600x300" alt="hero-img" />
+        <Image src="https://i.ibb.co/yf0YM3J/file.jpg" alt="hero-img" />
       </ImageContainer>
     </Section>
   );
