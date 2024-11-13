@@ -5,26 +5,31 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let isMounted = true; // Controle para evitar update de estado após unmount
+
         const checkAuth = async () => {
             try {
-                const response = await Api.get('/users/verify-token', { withCredentials: true });
-                if (response.status === 200) {
-                    setIsAuthenticated(true);
-                } else {
-                    setIsAuthenticated(false);
-                }
+                const { status } = await Api.get('/users/verify-token', { withCredentials: true });
+                if (isMounted) setIsAuthenticated(status === 200);
             } catch (error) {
                 console.log('Usuário não autenticado:', error);
-                setIsAuthenticated(false);
+                if (isMounted) setIsAuthenticated(false);
+            } finally {
+                if (isMounted) setLoading(false);
             }
         };
 
         checkAuth();
+
+        return () => {
+            isMounted = false; // Cleanup do efeito
+        };
     }, []);
 
-    const login = (user_id) => {
+    const login = () => {
         setIsAuthenticated(true);
     };
 
@@ -33,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

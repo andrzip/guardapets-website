@@ -7,6 +7,7 @@ const sharedInputStyles = `
   border: 0.063rem solid black;
   border-radius: 0.3125rem;
   margin-bottom: 0.625rem;
+  outline: none;
 `;
 
 export const Container = styled.div`
@@ -41,6 +42,9 @@ export const FormRow = styled.div`
 export const Input = styled.input`
   width: ${(props) => (props.fullWidth ? '100%' : '50%')};
   ${sharedInputStyles};
+  
+
+  border-color: ${(props) => (props.hasError ? 'red' : 'black')};
 `;
 
 export const TextLink = styled.p`

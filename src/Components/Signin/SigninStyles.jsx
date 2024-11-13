@@ -71,6 +71,7 @@ export const ButtonGroup = styled.div`
 `;
 
 export const Button = styled.a`
+  display: flex;
   padding: 0.625rem 3.125rem;
   border: none;
   border-radius: 0.3125rem;

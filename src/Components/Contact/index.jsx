@@ -17,26 +17,42 @@ import {
 } from './ContactStyles';
 
 const Contact = () => {
-  const { id } = useParams(); // Pega o ID da URL
-  const [animalData, setAnimalData] = useState(null); // Estado para armazenar os dados do animal
+  const { id } = useParams();
+  const [animalData, setAnimalData] = useState(null);
+  const [donorContact, setDonorContact] = useState(null);
 
   useEffect(() => {
     const fetchAnimalData = async () => {
       try {
-        const response = await Api.get(`/animals/view/${id}`); // Altere para o endpoint corret
-        setAnimalData(response.data[0]); // Assume que a resposta é um array e pega o primeiro item
+        const response = await Api.get(`/animals/view/${id}`);
+        setAnimalData(response.data[0]);
       } catch (error) {
         console.error("Erro ao buscar detalhes do animal:", error);
       }
     };
 
+    const fetchDonorContact = async () => {
+      try {
+        const response = await Api.get(`/animals/donorContact/${id}`)
+        setDonorContact(response.data.phone);
+      } catch (error) {
+        console.error("Erro ao buscar contato do doador:", error);
+      }
+    };
+
     fetchAnimalData();
+    fetchDonorContact();
   }, [id]);
 
   const handleContactClick = () => {
-    alert("Contato do doador: (11) 91234-5678");
+    if (donorContact) {
+      alert("Redirecionando ao contato do doador...");
+      const whatsappLink = `https://wa.me/${donorContact}`;
+      window.open(whatsappLink, "_blank");
+    } else {
+      alert("Contato do doador não disponível");
+    }
   };
-
   const handleBackClick = () => {
     window.history.back();
   };

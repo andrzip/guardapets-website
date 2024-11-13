@@ -24,6 +24,7 @@ const Signin = () => {
     user_email: "",
     user_password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,6 +42,8 @@ const Signin = () => {
       return;
     }
 
+    setLoading(true);
+
     try {
       const response = await Api.post("/users/signin", { user_email, user_password });
 
@@ -53,21 +56,20 @@ const Signin = () => {
       }
     } catch (error) {
       alert("Credenciais de login incorretas");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Funções auxiliares para simplificar a renderizacao de campos
   const renderInput = (type, name, placeholder, additionalProps = {}) => (
-      <Input
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        onChange={handleInputChange}
-        {...additionalProps}
-      />
+    <Input
+      type={type}
+      name={name}
+      placeholder={placeholder}
+      onChange={handleInputChange}
+      {...additionalProps}
+    />
   );
-
-
 
   return (
     <Container>
@@ -83,9 +85,11 @@ const Signin = () => {
             Esqueceu sua senha? <StyledLink to="/">Redefinir senha</StyledLink>
           </TextLink>
           <ButtonGroup>
-            <Button href="/signup">Criar uma conta</Button>
-            <Button primary onClick={handleSignin}>
-              Entrar
+            <StyledLink to="/signup">
+              <Button>Criar uma conta</Button>
+            </StyledLink>
+            <Button primary onClick={handleSignin} disabled={loading}>
+              {loading ? "Entrando..." : "Entrar"}
             </Button>
           </ButtonGroup>
         </FormContainer>

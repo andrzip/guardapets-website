@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
 import { Api } from "../../Services/ApiConfig";
-import { z } from "zod"; // Importando o Zod
 import {
   Container,
   FormWrapper,
@@ -13,25 +12,6 @@ import {
   TextLink,
   StyledLink,
 } from "./SignupStyles";
-
-// Definindo o esquema de validação usando Zod
-const formSchema = z.object({
-  user_name: z.string().nonempty("O campo 'nome' é obrigatório"),
-  user_email: z.string().email("Insira um e-mail válido").nonempty("O campo 'e-mail' é obrigatório"),
-  user_password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres").nonempty("O campo 'senha' é obrigatório"),
-  user_phone: z.string().nonempty("O campo 'celular' é obrigatório"),
-  user_cpf: z.string()
-    .nonempty("O campo 'CPF' é obrigatório")
-    .length(14, "O CPF deve ter exatamente 14 caracteres"),
-  user_birthdate: z.string().nonempty("O campo 'data de nascimento' é obrigatório"),
-  user_address: z.string().nonempty("O campo 'endereço' é obrigatório"),
-  user_state: z.string().nonempty("O campo 'estado' é obrigatório"),
-  user_city: z.string().nonempty("O campo 'cidade' é obrigatório"),
-  user_cep: z.string()
-    .nonempty("O campo 'CEP' é obrigatório")
-    .min(8, "O CEP deve ter pelo menos 8 caracteres")
-    .max(9, "O CEP deve ter no máximo 9 caracteres"),
-});
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -47,6 +27,8 @@ const Signup = () => {
     user_cep: "",
   });
 
+  const [errors, setErrors] = useState({}); // Adicionando estado para os erros
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -55,45 +37,67 @@ const Signup = () => {
   };
 
   const validateForm = () => {
-    try {
-      formSchema.parse(formData);
-      return true;
-    } catch (error) {
-      alert(error.errors[0].message);
-      return false;
+    const newErrors = {}; // Objeto para armazenar os erros
+
+    // Verifica se algum campo está vazio
+    for (const key in formData) {
+      if (formData[key] === "") {
+        newErrors[key] = "Este campo é obrigatório"; // Adiciona erro ao campo
+      }
     }
+
+    setErrors(newErrors); // Atualiza os erros no estado
+
+    return Object.keys(newErrors).length === 0; // Se não houver erros, retorna true
   };
 
   const submitSignupForm = async () => {
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      alert("Preencha todos os campos!");
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const response = await Api.post("/users/signup", formData);
       if (response.status !== 200) throw new Error("Erro ao cadastrar usuário");
+
       alert("Usuário cadastrado com sucesso!");
+      setFormData({
+        user_name: "",
+        user_email: "",
+        user_password: "",
+        user_phone: "",
+        user_cpf: "",
+        user_birthdate: "",
+        user_address: "",
+        user_state: "",
+        user_city: "",
+        user_cep: "",
+      });
       navigate("/");
     } catch (error) {
       alert(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Funções auxiliares para simplificar a renderização de campos
   const renderInput = (type, name, placeholder, additionalProps = {}) => (
     <Input
       type={type}
       name={name}
       placeholder={placeholder}
       onChange={handleChange}
+      value={formData[name]}
+      hasError={!!errors[name]} // Passa o estado do erro para o estilo
       {...additionalProps}
     />
   );
 
   const renderMaskedInput = (mask, name, placeholder) => (
-    <InputMask
-      mask={mask}
-      value={formData[name]}
-      onChange={handleChange}
-    >
+    <InputMask mask={mask} value={formData[name]} onChange={handleChange}>
       {(inputProps) => renderInput("text", name, placeholder, inputProps)}
     </InputMask>
   );
@@ -109,7 +113,7 @@ const Signup = () => {
         </FormRow>
         <FormRow>
           {renderMaskedInput("999.999.999-99", "user_cpf", "CPF")}
-          {renderInput("date", "user_birthdate", "")}
+          {renderInput("date", "user_birthdate", "Data de Nascimento")}
         </FormRow>
         {renderInput("text", "user_address", "Endereço completo", { fullWidth: true })}
         <FormRow>
@@ -124,7 +128,9 @@ const Signup = () => {
             Termos, Política de Privacidade e Política de Cookies.
           </StyledLink>
         </TextLink>
-        <Button onClick={submitSignupForm}>Cadastrar</Button>
+        <Button onClick={submitSignupForm} disabled={loading}>
+          {loading ? "Cadastrando..." : "Cadastrar"}
+        </Button>
       </FormWrapper>
     </Container>
   );
