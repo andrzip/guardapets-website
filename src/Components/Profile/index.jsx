@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 import {
   ProfileContainer,
   ProfileTitle,
@@ -50,12 +49,18 @@ const Profile = () => {
     setProfileData(prevData => ({ ...prevData, [name]: value }));
   };
 
-  const handleSignOut = () => {
-    alert('Saindo...');
-    Cookies.remove('accessToken');
-    signOut();
-    navigate('/');
+  const handleSignOut = async () => {
+    try {
+      const response = await Api.get('/users/logout', { withCredentials: true });
+      alert(response.data.message);
+      signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Erro ao sair:', error);
+      alert('Erro ao sair');
+    }
   };
+  
 
   const handleUpdateProfile = async () => {
     try {

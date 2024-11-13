@@ -36,17 +36,17 @@ const Signin = () => {
 
   const handleSignin = async () => {
     const { user_email, user_password } = formData;
-
-    if (!user_email || !user_password) {
-      alert("Preencha todos os campos!");
+  
+    if (!(user_email && user_password)) {
+      alert("Preencha todos os campos obrigatórios.");
       return;
     }
-
+  
     setLoading(true);
-
+  
     try {
       const response = await Api.post("/users/signin", { user_email, user_password });
-
+  
       if (response.status === 200) {
         alert(response.data.message);
         login();
@@ -55,7 +55,7 @@ const Signin = () => {
         alert("Falha ao realizar o login. Tente novamente.");
       }
     } catch (error) {
-      alert("Credenciais de login incorretas");
+        alert(error.response.data.message);
     } finally {
       setLoading(false);
     }
