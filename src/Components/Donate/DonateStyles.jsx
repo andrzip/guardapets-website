@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
+    background: #eaf4ec;
     display: flex;
     align-items: center;
     height: calc(100vh - 3.75rem);

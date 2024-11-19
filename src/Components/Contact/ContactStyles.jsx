@@ -6,7 +6,7 @@ export const PageContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-  color: #1b5e20;
+  color: #234D20;
   padding: 2%;
   width: 100%;
   height: calc(100vh - 3.75rem);
@@ -14,9 +14,8 @@ export const PageContainer = styled.div`
 
 export const AnimalImageContainer = styled.div`
   position: relative;
-  height: 22.5rem;
-  width: 33.75rem;
-  margin-bottom: 25px;
+  height: 100%;
+  width: 40rem;
   overflow: hidden;
   border-radius: 20px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -27,7 +26,7 @@ export const AnimalImageContainer = styled.div`
 
 export const AnimalImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
 `;
 
 export const AnimalOverlay = styled.div`
@@ -52,7 +51,8 @@ export const AnimalNameOverlay = styled.h2`
 export const AnimalInfo = styled.div`
   text-align: center;
   width: 100%;
-  max-width: 650px;
+  height: 100%;
+  max-width: 770px;
 `;
 
 export const DetailsWrapper = styled.div`
@@ -60,7 +60,7 @@ export const DetailsWrapper = styled.div`
   background: rgba(255, 255, 255, 0.8);
   border-radius: 15px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
 `;
 
 export const AnimalInfoSection = styled.div`
@@ -70,7 +70,7 @@ export const AnimalInfoSection = styled.div`
 `;
 
 export const AnimalInfoItem = styled.p`
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #444;
   strong {
     color: #2e7d32;
@@ -87,24 +87,23 @@ export const ButtonContainer = styled.div`
 
 export const ContactButton = styled.button`
   padding: 12px 24px;
-  background: linear-gradient(45deg, #66bb6a, #43a047);
-  color: #ffffff;
-  font-size: 1.2rem;
-  font-weight: bold;
+  background: #C9DF8A;
+  color: black;
+  font-size: 1rem;
   border: none;
   border-radius: 30px;
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   &:hover {
-    background-color: #388e3c;
+    background-color: #aac268;
   }
 `;
 
 export const BackButton = styled.button`
-  padding: 10px 19px;
+  padding: 10px 20px;
   background: #757575;
   color: #ffffff;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: bold;
   border: none;
   border-radius: 50%;

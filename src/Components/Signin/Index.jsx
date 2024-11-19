@@ -54,8 +54,9 @@ const Signin = () => {
       } else {
         alert("Falha ao realizar o login. Tente novamente.");
       }
-    } catch (error) {
-        alert(error.response.data.message);
+    } catch (err) {
+      console.log(err);
+      alert("Falha ao realizar o login. Tente novamente.");
     } finally {
       setLoading(false);
     }

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+// AdoptStyles.jsx
 import styled from "styled-components";
-import { Api } from "../../Services/ApiConfig";
-import { useNavigate } from "react-router-dom";
+
+// Estilos para a página de adoção
 
 export const HeaderContainer = styled.div`
   display: flex;
@@ -35,7 +35,7 @@ export const SearchButton = styled.button`
   }
 `;
 
-const AnimalListContainer = styled.div`
+export const AnimalListContainer = styled.div`
   padding: 1.25rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
@@ -43,7 +43,7 @@ const AnimalListContainer = styled.div`
   justify-items: center;
 `;
 
-const AnimalCard = styled.div`
+export const AnimalCard = styled.div`
   background: #f9f9f9;
   border: 1px solid #ddd;
   padding: 0.9375rem;
@@ -53,11 +53,11 @@ const AnimalCard = styled.div`
   box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   text-align: center;
 `;
 
-const AnimalImage = styled.img`
+export const AnimalImage = styled.img`
   width: 100%;
   height: auto;
   max-height: 9.375rem;
@@ -66,7 +66,7 @@ const AnimalImage = styled.img`
   margin-bottom: 0.625rem;
 `;
 
-const AdoptButton = styled.button`
+export const AdoptButton = styled.button`
   background-color: #c9df8a;
   color: black;
   border: none;
@@ -80,50 +80,3 @@ const AdoptButton = styled.button`
     background-color: #aac268;
   }
 `;
-
-export const AnimalList = ({ cep }) => {
-  const [animals, setAnimals] = useState([]);
-  const navigate = useNavigate(); // Inicializando useNavigate
-
-  useEffect(() => {
-    const fetchAnimals = async () => {
-      try {
-        const endpoint = cep ? `/animals/list/${cep}` : '/animals/list';
-        const response = await Api.get(endpoint);
-        setAnimals(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar animais:", error);
-      }
-    };
-
-    fetchAnimals();
-  }, [cep]);
-
-  const handleAdoptClick = (animalId) => {
-    navigate(`/animal/${animalId}`)
-  };
-
-  return (
-    <AnimalListContainer>
-      {animals.map((animal) => (
-        <AnimalCard key={animal.animal_id}>
-          <h2 style={{ textAlign: "center" }}>{animal.animal_name}</h2>
-          <AnimalImage
-            src={animal.animal_picurl}
-            alt={animal.animal_name}
-          />
-          <p>
-            <strong>🎂 Idade:</strong> {animal.animal_age} anos <br />
-            <strong>📌 Tipo:</strong> {animal.animal_type} <br />
-            <strong>🧬 Gênero:</strong> {animal.animal_gender} <br />
-            <strong>🐾 Porte:</strong> {animal.animal_size} <br />
-            <strong>🚩 Local:</strong> {animal.animal_address}
-          </p>
-          <AdoptButton onClick={() => handleAdoptClick(animal.animal_id)}>
-            Ver mais
-          </AdoptButton>
-        </AnimalCard>
-      ))}
-    </AnimalListContainer>
-  );
-};

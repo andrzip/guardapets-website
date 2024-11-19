@@ -127,10 +127,6 @@ const Donate = () => {
             {renderSelect("animal_type", "Tipo", ["Cachorro", "Gato", "Ave", "Outro"])}
             {renderSelect("animal_gender", "Sexo", ["Macho", "Fêmea"])}
             {renderSelect("animal_size", "Porte", ["Pequeno", "Médio", "Grande"])}
-            <FormRow style={{ display: "flex", gap: "10px" }}>
-              {renderInput("text", "animal_address", "Residência")}
-              {renderInput("text", "animal_cep", "CEP")}
-            </FormRow>
             {renderInput("file", "animal_picurl", "Imagem", { accept: "image/*" })}
           </FormCol>
           <FormCol>

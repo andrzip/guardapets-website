@@ -19,35 +19,27 @@ import {
 const Contact = () => {
   const { id } = useParams();
   const [animalData, setAnimalData] = useState(null);
-  const [donorContact, setDonorContact] = useState(null);
 
   useEffect(() => {
     const fetchAnimalData = async () => {
       try {
         const response = await Api.get(`/animals/view/${id}`);
         setAnimalData(response.data[0]);
-      } catch (error) {
-        console.error("Erro ao buscar detalhes do animal:", error);
-      }
-    };
-
-    const fetchDonorContact = async () => {
-      try {
-        const response = await Api.get(`/animals/donorContact/${id}`)
-        setDonorContact(response.data.phone);
-      } catch (error) {
-        console.error("Erro ao buscar contato do doador:", error);
+      } catch (err) {
+        console.error("Erro ao buscar detalhes do animal:", err);
+        return 
       }
     };
 
     fetchAnimalData();
-    fetchDonorContact();
   }, [id]);
 
   const handleContactClick = () => {
-    if (donorContact) {
+    if (animalData.user_phone) {
+      const donorContact = animalData.user_phone;
+      const formattedContact = donorContact.replace(/\D/g, "");
       alert("Redirecionando ao contato do doador...");
-      const whatsappLink = `https://wa.me/${donorContact}`;
+      const whatsappLink = `https://wa.me/${formattedContact.user_phone}`;
       window.open(whatsappLink, "_blank");
     } else {
       alert("Contato do doador não disponível");
@@ -73,9 +65,11 @@ const Contact = () => {
         <DetailsWrapper>
           <AnimalInfoSection>
             <AnimalInfoItem><strong>Tipo:</strong> {animalData.animal_type}</AnimalInfoItem>
-            <AnimalInfoItem><strong>Idade:</strong> {animalData.animal_age}</AnimalInfoItem>
+            <AnimalInfoItem><strong>Idade:</strong> {animalData.animal_age} anos</AnimalInfoItem>
             <AnimalInfoItem><strong>Porte:</strong> {animalData.animal_size}</AnimalInfoItem>
             <AnimalInfoItem><strong>Gênero:</strong> {animalData.animal_gender}</AnimalInfoItem>
+            <AnimalInfoItem><strong>Cidade:</strong> {animalData.user_city}/{animalData.user_state}</AnimalInfoItem>
+            <AnimalInfoItem><strong>Endereço:</strong> {animalData.user_address}</AnimalInfoItem>
           </AnimalInfoSection>
         </DetailsWrapper>
         <DetailsWrapper>

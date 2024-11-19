@@ -31,8 +31,8 @@ const Navbar = () => {
                     <NavLink to='/parceiros' activeStyle>
                         Parceiros
                     </NavLink>
-                    <NavLink to='/sobre' activeStyle>
-                        Sobre
+                    <NavLink to='/ajuda' activeStyle>
+                        Ajuda
                     </NavLink>
                 </NavMenu>
                 <NavBtn>
