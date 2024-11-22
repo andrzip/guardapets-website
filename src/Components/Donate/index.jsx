@@ -15,6 +15,8 @@ import {
   Button,
 } from "./DonateStyles";
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
 // Schema de validação usando Zod
 const formSchema = z.object({
   animal_name: z.string().nonempty("O campo 'nome' é obrigatório"),
@@ -22,12 +24,13 @@ const formSchema = z.object({
   animal_gender: z.string().nonempty("O campo 'sexo' é obrigatório"),
   animal_type: z.string().nonempty("O campo 'tipo' é obrigatório"),
   animal_size: z.string().nonempty("O campo 'porte' é obrigatório"),
-  animal_address: z.string().nonempty("O campo 'residência' é obrigatório"),
-  animal_cep: z.string()
-    .nonempty("O campo 'CEP' é obrigatório")
-    .min(8, "O CEP deve ter pelo menos 8 caracteres")
-    .max(9, "O CEP deve ter no máximo 9 caracteres"),
-  animal_picurl: z.instanceof(File, { message: "O campo 'imagem' é obrigatório" }),
+  animal_picurl: z
+    .instanceof(File, { message: "O campo 'imagem' é obrigatório" })
+    .refine(
+      (file) => ["image/jpeg", "image/png"].includes(file.type),
+      "O arquivo deve ser uma imagem nos formatos JPG ou PNG."
+    )
+    .refine((file) => file.size <= MAX_FILE_SIZE, "A imagem deve ter no máximo 5MB."),
   animal_desc: z.string().nonempty("O campo 'descrição' é obrigatório"),
 });
 
@@ -38,8 +41,6 @@ const Donate = () => {
     animal_gender: "",
     animal_type: "",
     animal_size: "",
-    animal_address: "",
-    animal_cep: "",
     animal_picurl: null,
     animal_desc: "",
   });
@@ -48,6 +49,19 @@ const Donate = () => {
 
   // Função para atualizar o estado do formulário
   const handleChange = ({ target: { name, value, files } }) => {
+    if (name === "animal_picurl" && files) {
+      const file = files[0];
+      if (file) {
+        if (!["image/jpeg", "image/png"].includes(file.type)) {
+          alert("Apenas arquivos JPG ou PNG são permitidos.");
+          return;
+        } else if (file.size > MAX_FILE_SIZE) {
+          alert("A imagem deve ter no máximo 5MB.");
+          return;
+        }
+      }
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: files ? files[0] : value,
@@ -79,14 +93,14 @@ const Donate = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      if (response.status !== 200) throw new Error("Erro ao doar animal");
+      if (response.status !== 200) return alert("Erro ao doar animal");
       alert("Animal enviado para análise");
       navigate("/");
-    } catch (error) {
-      alert(error.message);
+    } catch (err) {
+      console.error("Erro ao doar animal:", err);
+      return alert("Erro ao doar animal");
     }
   };
-
 
   // Funções auxiliares para simplificar a renderização de campos
   const renderInput = (type, name, placeholder, additionalProps = {}) => (
@@ -123,11 +137,11 @@ const Donate = () => {
         <FormRow>
           <FormCol>
             {renderInput("text", "animal_name", "Nome")}
-            {renderInput("text", "animal_age", "Idade", handleChange)}
+            {renderSelect("animal_age", "Idade", ["Filhote", "Adulto", "Idoso"])}
             {renderSelect("animal_type", "Tipo", ["Cachorro", "Gato", "Ave", "Outro"])}
             {renderSelect("animal_gender", "Sexo", ["Macho", "Fêmea"])}
             {renderSelect("animal_size", "Porte", ["Pequeno", "Médio", "Grande"])}
-            {renderInput("file", "animal_picurl", "Imagem", { accept: "image/*" })}
+            {renderInput("file", "animal_picurl", "Imagem", { accept: "image/jpeg,image/png" })}
           </FormCol>
           <FormCol>
             <Input

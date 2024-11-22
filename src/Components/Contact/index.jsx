@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Api } from '../../Services/ApiConfig'; // Ajuste o caminho conforme necessário
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Api } from "../../Services/ApiConfig";
+import ContactModal from "./ContactModal";
+import { FaLocationArrow, FaUser  } from "react-icons/fa";
 import {
   PageContainer,
   AnimalImageContainer,
   AnimalImage,
-  AnimalOverlay,
-  AnimalNameOverlay,
   AnimalInfo,
-  AnimalInfoSection,
-  AnimalInfoItem,
-  ContactButton,
-  DetailsWrapper,
-  BackButton,
-  ButtonContainer,
-} from './ContactStyles';
+  AnimalHeader,
+  AnimalDetails,
+  AnimalDetailsItem,
+  Description,
+  DescriptionText,
+  ActionButton,
+} from "./ContactStyles";
 
 const Contact = () => {
   const { id } = useParams();
   const [animalData, setAnimalData] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchAnimalData = async () => {
@@ -27,7 +28,6 @@ const Contact = () => {
         setAnimalData(response.data[0]);
       } catch (err) {
         console.error("Erro ao buscar detalhes do animal:", err);
-        return 
       }
     };
 
@@ -35,51 +35,56 @@ const Contact = () => {
   }, [id]);
 
   const handleContactClick = () => {
-    if (animalData.user_phone) {
-      const donorContact = animalData.user_phone;
-      const formattedContact = donorContact.replace(/\D/g, "");
-      alert("Redirecionando ao contato do doador...");
-      const whatsappLink = `https://wa.me/${formattedContact.user_phone}`;
-      window.open(whatsappLink, "_blank");
-    } else {
-      alert("Contato do doador não disponível");
-    }
-  };
-  const handleBackClick = () => {
-    window.history.back();
+    setModalOpen(true);
   };
 
-  if (!animalData) {
-    return <div>Carregando...</div>;
-  }
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
+  const handleBackClick = () => window.history.back();
+
+  if (!animalData) return <div>Carregando...</div>;
+
+  const dataFormatada = new Date(animalData.animal_addition).toLocaleDateString("pt-BR");
   return (
     <PageContainer>
       <AnimalImageContainer>
         <AnimalImage src={animalData.animal_picurl} alt={animalData.animal_name} />
-        <AnimalOverlay>
-          <AnimalNameOverlay>{animalData.animal_name}</AnimalNameOverlay>
-        </AnimalOverlay>
       </AnimalImageContainer>
       <AnimalInfo>
-        <DetailsWrapper>
-          <AnimalInfoSection>
-            <AnimalInfoItem><strong>Tipo:</strong> {animalData.animal_type}</AnimalInfoItem>
-            <AnimalInfoItem><strong>Idade:</strong> {animalData.animal_age} anos</AnimalInfoItem>
-            <AnimalInfoItem><strong>Porte:</strong> {animalData.animal_size}</AnimalInfoItem>
-            <AnimalInfoItem><strong>Gênero:</strong> {animalData.animal_gender}</AnimalInfoItem>
-            <AnimalInfoItem><strong>Cidade:</strong> {animalData.user_city}/{animalData.user_state}</AnimalInfoItem>
-            <AnimalInfoItem><strong>Endereço:</strong> {animalData.user_address}</AnimalInfoItem>
-          </AnimalInfoSection>
-        </DetailsWrapper>
-        <DetailsWrapper>
-          <AnimalInfoItem><strong>Descrição:</strong> {animalData.animal_desc}</AnimalInfoItem>
-        </DetailsWrapper>
-        <ButtonContainer>
-          <BackButton onClick={handleBackClick}>↺</BackButton>
-          <ContactButton onClick={handleContactClick}>Contato do Doador</ContactButton>
-        </ButtonContainer>
+        <AnimalHeader>
+          {animalData.animal_name}
+          <p>
+            {animalData.animal_type} | {animalData.animal_gender} | {animalData.animal_age} | {animalData.animal_size}
+          </p>
+        </AnimalHeader>
+        <AnimalDetails>
+          <AnimalDetailsItem>
+            <FaLocationArrow /> <span>Está em {animalData.user_city} - {animalData.user_state}</span>
+          </AnimalDetailsItem>
+          <AnimalDetailsItem>
+            <FaUser /> <span>Publicado por {animalData.user_name} em {dataFormatada}</span>
+          </AnimalDetailsItem>
+          <ActionButton primary onClick={handleContactClick}>
+            Contato do Doador
+          </ActionButton>
+        </AnimalDetails>
+        <Description>
+          <h1>A história de {animalData.animal_name}</h1>
+          <DescriptionText>{animalData.animal_desc}</DescriptionText>
+        </Description>
+        <ActionButton onClick={handleBackClick}>Voltar</ActionButton>
       </AnimalInfo>
+
+      <ContactModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        contact={{
+          email: animalData.user_email,
+          phone: animalData.user_phone
+        }}
+      />
     </PageContainer>
   );
 };

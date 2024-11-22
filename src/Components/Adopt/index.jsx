@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Api } from "../../Services/ApiConfig";
-import { HeaderContainer, Title, Input, SearchButton, AnimalListContainer, AnimalCard, AnimalImage, AdoptButton } from "./AdoptStyles";
+import {
+  HeaderContainer,
+  Title,
+  Input,
+  SearchButton,
+  AnimalListContainer,
+  AnimalCard,
+  AnimalImage,
+  AnimalDetails,
+  AnimalFooter,
+  AdoptButton,
+} from "./AdoptStyles";
 
 const Adopt = () => {
-  const [inputCep, setInputCep] = useState('');
-  const [cep, setCep] = useState('');
+  const [inputCep, setInputCep] = useState("");
+  const [cep, setCep] = useState("");
   const [animals, setAnimals] = useState([]);
   const navigate = useNavigate();
 
@@ -20,18 +31,18 @@ const Adopt = () => {
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
-        const endpoint = cep ? `/animals/list/${cep}` : '/animals/list';
+        const endpoint = cep ? `/animals/list/${cep}` : "/animals/list";
         const response = await Api.get(endpoint);
         setAnimals(response.data);
       } catch (err) {
         console.error("Erro ao buscar animais:", err);
         alert("Animais indisponíveis no momento");
-        return navigate('/');
+        return navigate("/");
       }
     };
 
     fetchAnimals();
-  }, [cep]);
+  }, [cep, navigate]);
 
   const handleAdoptClick = (animalId) => {
     navigate(`/animal/${animalId}`);
@@ -51,25 +62,26 @@ const Adopt = () => {
         />
         <SearchButton onClick={handleSearch}>Buscar</SearchButton>
       </HeaderContainer>
-      
+
       <AnimalListContainer>
         {animals.map((animal) => (
           <AnimalCard key={animal.animal_id}>
-            <h2>{animal.animal_name}</h2>
-            <AnimalImage
-              src={animal.animal_picurl}
-              alt={animal.animal_name}
-            />
-            <p>
-              <strong>🎂 Idade:</strong> {animal.animal_age} anos <br />
-              <strong>📌 Tipo:</strong> {animal.animal_type} <br />
-              <strong>🧬 Gênero:</strong> {animal.animal_gender} <br />
-              <strong>🐾 Porte:</strong> {animal.animal_size} <br />
-              <strong>🚩 Local:</strong> {animal.user_city} - {animal.user_state}
-            </p>
-            <AdoptButton onClick={() => handleAdoptClick(animal.animal_id)}>
-              Ver mais
-            </AdoptButton>
+            <AnimalImage src={animal.animal_picurl} alt={animal.animal_name} />
+            <AnimalDetails>
+              <span>{animal.user_name}</span>
+              <h3>{animal.animal_name.split(" ")[0]}</h3>
+              <p>
+                {animal.user_city}, {animal.user_state}
+              </p>
+            </AnimalDetails>
+            <AnimalFooter gender={animal.animal_gender}>
+              <span className="gender">
+                {animal.animal_gender === "Fêmea" ? "♀" : "♂"}
+              </span>
+              <AdoptButton onClick={() => handleAdoptClick(animal.animal_id)}>
+                Quero adotar
+              </AdoptButton>
+            </AnimalFooter>
           </AnimalCard>
         ))}
       </AnimalListContainer>

@@ -60,7 +60,7 @@ const Admin = () => {
             <AnimalText>
               <p>
                 <strong>Nome:</strong> {animal.animal_name} <br />
-                <strong>Idade:</strong> {animal.animal_age} anos <br />
+                <strong>Faixa Etária:</strong> {animal.animal_age} <br />
                 <strong>Classificação:</strong> {animal.animal_type} <br />
                 <strong>Gênero:</strong> {animal.animal_gender} <br />
                 <strong>Estatura:</strong> {animal.animal_size} <br />
