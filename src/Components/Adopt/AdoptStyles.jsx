@@ -1,7 +1,5 @@
 import styled from "styled-components";
 
-// Estilos atualizados para a página de adoção
-
 export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
@@ -115,4 +113,31 @@ export const AdoptButton = styled.button`
   &:hover {
     background-color: #fb8c00;
   }
+`;
+
+// Estilos para o filtro
+export const FilterContainer = styled.div`
+  width: 20rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  box-shadow: rgb(0 0 0 / 20%) 0px 10px 20px;
+`;
+
+export const FilterLabel = styled.label`
+  display: block;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #333;
+`;
+
+export const FilterSelect = styled.select`
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
 `;

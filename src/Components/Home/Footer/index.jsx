@@ -37,7 +37,7 @@ const Footer = () => {
         <FooterColumn>
           <FooterTitle>PRECISA DE SUPORTE?</FooterTitle>
           <FooterLink href="/ajuda">Ajuda</FooterLink>
-          <FooterLink href="#">E-mail</FooterLink>
+          <FooterLink href="/termos-politicas">Termos e Políticas</FooterLink>
           <FooterLink href="#">Fale Conosco</FooterLink>
         </FooterColumn>
       </FooterWrapper>

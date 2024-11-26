@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Header,
@@ -13,13 +14,14 @@ import { FaPaw, FaDonate, FaHeart, FaFileAlt } from "react-icons/fa";
 
 const Help = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const navigate = useNavigate();
 
   const categories = [
-    { label: "Adotar um Pet", icon: <FaPaw /> },
-    { label: "Doação de Animais", icon: <FaDonate /> },
+    { label: "Adotar um Pet", icon: <FaPaw />, link: "/adotar" },
+    { label: "Doação de Animais", icon: <FaDonate />, link: "/doar" },
     { label: "Cuidados Gerais", icon: <FaHeart /> },
     { label: "Acompanhamento de Adoção", icon: <FaFileAlt /> },
-    { label: "Termos e Políticas", icon: <FaFileAlt /> },
+    { label: "Termos e Políticas", icon: <FaFileAlt />, link: "/termos-politicas" },
   ];
 
   const faqList = [
@@ -83,7 +85,7 @@ const Help = () => {
       <h3>Categorias</h3>
       <Categories>
         {categories.map((category, index) => (
-          <CategoryButton key={index}>
+          <CategoryButton key={index} onClick={() => navigate(category.link)}>
             {category.icon} {category.label}
           </CategoryButton>
         ))}
