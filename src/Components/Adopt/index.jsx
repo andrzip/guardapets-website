@@ -4,8 +4,6 @@ import { Api } from "../../Services/ApiConfig";
 import {
   HeaderContainer,
   Title,
-  Input,
-  SearchButton,
   AnimalListContainer,
   AnimalCard,
   AnimalImage,
@@ -15,6 +13,9 @@ import {
   FilterContainer,
   FilterLabel,
   FilterSelect,
+  FilterInput,
+  FilterButton,
+  ClearFilter,
 } from "./AdoptStyles";
 
 const Adopt = () => {
@@ -33,10 +34,6 @@ const Adopt = () => {
     setInputCep(event.target.value);
   };
 
-  const handleSearch = () => {
-    setCep(inputCep);
-  };
-
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prevFilters) => ({
@@ -45,10 +42,23 @@ const Adopt = () => {
     }));
   };
 
+  const handleApplyFilters = () => {
+    setCep(inputCep);
+  };
+
+  const handleClearFilters = () => {
+    setFilters({
+      type: "",
+      age: "",
+      size: "",
+      gender: "",
+    });
+    setInputCep("");
+  };
+
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
-        // Construa a URL com base nos filtros
         const queryParams = new URLSearchParams(filters).toString();
         const endpoint = cep
           ? `/animals/list/${cep}?${queryParams}`
@@ -59,12 +69,11 @@ const Adopt = () => {
       } catch (err) {
         console.error("Erro ao buscar animais:", err);
         alert("Animais indisponíveis no momento");
-        return navigate("/");
       }
     };
 
     fetchAnimals();
-  }, [cep, filters, navigate]);
+  }, [cep, filters]);
 
   const handleAdoptClick = (animalId) => {
     navigate(`/animal/${animalId}`);
@@ -74,20 +83,27 @@ const Adopt = () => {
     <div>
       <HeaderContainer>
         <Title>Lista de Animais</Title>
-        <span>|</span>
-        <Title>Busca por CEP:</Title>
-        <Input
-          type="text"
-          value={inputCep}
-          onChange={handleCepChange}
-          placeholder="Digite o CEP"
-        />
-        <SearchButton onClick={handleSearch}>Buscar</SearchButton>
       </HeaderContainer>
 
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: "2rem",
+        }}
+      >
         <FilterContainer>
           <Title>Filtros</Title>
+
+          <FilterLabel htmlFor="cep">CEP:</FilterLabel>
+          <FilterInput
+            id="cep"
+            name="cep"
+            placeholder="CEP"
+            value={inputCep}
+            onChange={handleCepChange}
+          />
+
           <FilterLabel htmlFor="type">Tipo:</FilterLabel>
           <FilterSelect
             id="type"
@@ -137,12 +153,20 @@ const Adopt = () => {
             <option value="Macho">Macho</option>
             <option value="Fêmea">Fêmea</option>
           </FilterSelect>
+
+          <FilterButton onClick={handleApplyFilters}>
+            Aplicar Filtros
+          </FilterButton>
+          <ClearFilter onClick={handleClearFilters}>Limpar Filtros</ClearFilter>
         </FilterContainer>
 
         <AnimalListContainer>
           {animals.map((animal) => (
             <AnimalCard key={animal.animal_id}>
-              <AnimalImage src={animal.animal_picurl} alt={animal.animal_name} />
+              <AnimalImage
+                src={animal.animal_picurl}
+                alt={animal.animal_name}
+              />
               <AnimalDetails>
                 <span>{animal.user_name}</span>
                 <h3>{animal.animal_name.split(" ")[0]}</h3>

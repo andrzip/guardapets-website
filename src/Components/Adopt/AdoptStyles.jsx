@@ -1,35 +1,17 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 1.25rem 0;
+  padding: 1.25rem 0;
+  background-color: #f9f9f9;
   flex-wrap: wrap;
 `;
 
 export const Title = styled.h2`
   margin: 0 0.625rem;
-`;
-
-export const Input = styled.input`
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
-`;
-
-export const SearchButton = styled.button`
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 0.3125rem;
-  cursor: pointer;
-  margin-left: 0.625rem;
-
-  &:hover {
-    background-color: #45a049;
-  }
 `;
 
 export const AnimalListContainer = styled.div`
@@ -38,6 +20,7 @@ export const AnimalListContainer = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
   gap: 1.5rem;
   justify-items: center;
+  flex: 1; /* Occupy remaining space */
 `;
 
 export const AnimalCard = styled.div`
@@ -69,7 +52,7 @@ export const AnimalDetails = styled.div`
   h3 {
     margin: 0;
     font-size: 1.25rem;
-    color: #333;
+    color: black;
     text-transform: uppercase;
     font-weight: bold;
   }
@@ -115,21 +98,19 @@ export const AdoptButton = styled.button`
   }
 `;
 
-// Estilos para o filtro
 export const FilterContainer = styled.div`
   width: 20rem;
   padding: 1rem;
   background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
-  box-shadow: rgb(0 0 0 / 20%) 0px 10px 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
 export const FilterLabel = styled.label`
   display: block;
   margin: 0.5rem 0;
   font-size: 1rem;
-  color: #333;
+  color: black;
 `;
 
 export const FilterSelect = styled.select`
@@ -138,6 +119,44 @@ export const FilterSelect = styled.select`
   border: 1px solid #ddd;
   border-radius: 0.5rem;
   font-size: 1rem;
-  color: #333;
+  color: black;
   background-color: #fff;
+`;
+
+export const FilterInput = styled.input`
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: black;
+  background-color: #fff;
+`;
+
+const BaseButton = styled(Link)`
+  border: none;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  border-radius: 0.625rem;
+  text-decoration: none;
+  text-align: center;
+  color: black;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+`;
+
+export const FilterButton = styled(BaseButton)`
+  background-color: #c9df8a;
+
+  &:hover {
+    background-color: #aac268;
+  }
+`;
+
+export const ClearFilter = styled(BaseButton)`
+  background-color: #999;
+
+  &:hover {
+    background-color: #999999c5;
+  }
 `;
