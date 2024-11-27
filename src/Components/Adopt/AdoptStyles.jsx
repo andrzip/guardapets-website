@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
+export const Container = styled.div`
+  display: "flex";
+  justify-content: "space-between";
+  gap: "2rem";
+`;
 export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
@@ -11,7 +16,7 @@ export const HeaderContainer = styled.div`
 `;
 
 export const Title = styled.h2`
-  margin: 0 0.625rem;
+  padding: 0 0.625rem;
 `;
 
 export const AnimalListContainer = styled.div`
@@ -20,7 +25,7 @@ export const AnimalListContainer = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(18.75rem, 1fr));
   gap: 1.5rem;
   justify-items: center;
-  flex: 1; /* Occupy remaining space */
+  flex: 1;
 `;
 
 export const AnimalCard = styled.div`
@@ -101,16 +106,10 @@ export const AdoptButton = styled.button`
 export const FilterContainer = styled.div`
   width: 20rem;
   padding: 1rem;
+  gap: 0.5rem;
   background-color: #f9f9f9;
   display: flex;
   flex-direction: column;
-`;
-
-export const FilterLabel = styled.label`
-  display: block;
-  margin: 0.5rem 0;
-  font-size: 1rem;
-  color: black;
 `;
 
 export const FilterSelect = styled.select`

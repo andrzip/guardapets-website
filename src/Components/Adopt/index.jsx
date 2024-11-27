@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Api } from "../../Services/ApiConfig";
 import {
+  Container,
   HeaderContainer,
   Title,
   AnimalListContainer,
@@ -11,12 +12,21 @@ import {
   AnimalFooter,
   AdoptButton,
   FilterContainer,
-  FilterLabel,
   FilterSelect,
   FilterInput,
   FilterButton,
   ClearFilter,
 } from "./AdoptStyles";
+
+// Função para gerar os parâmetros de consulta
+const buildQueryParams = (filters, cep) => {
+  const queryParams = new URLSearchParams();
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value) queryParams.append(key, value);
+  });
+  if (cep) queryParams.append("cep", cep);
+  return queryParams.toString();
+};
 
 const Adopt = () => {
   const [inputCep, setInputCep] = useState("");
@@ -28,43 +38,37 @@ const Adopt = () => {
     size: "",
     gender: "",
   });
+  const [appliedFilters, setAppliedFilters] = useState({
+    type: "",
+    age: "",
+    size: "",
+    gender: "",
+  });
   const navigate = useNavigate();
 
-  const handleCepChange = (event) => {
-    setInputCep(event.target.value);
-  };
+  const handleCepChange = (event) => setInputCep(event.target.value);
 
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
+  const handleFilterChange = ({ target: { name, value } }) => {
+    setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleApplyFilters = () => {
     setCep(inputCep);
+    setAppliedFilters(filters);
   };
 
   const handleClearFilters = () => {
-    setFilters({
-      type: "",
-      age: "",
-      size: "",
-      gender: "",
-    });
+    setFilters({ type: "", age: "", size: "", gender: "" });
+    setAppliedFilters({ type: "", age: "", size: "", gender: "" });
     setInputCep("");
   };
 
+  // Efetua a requisição de animais com base nos filtros
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
-        const queryParams = new URLSearchParams(filters).toString();
-        const endpoint = cep
-          ? `/animals/list/${cep}?${queryParams}`
-          : `/animals/list?${queryParams}`;
-
-        const response = await Api.get(endpoint);
+        const queryParams = buildQueryParams(appliedFilters, cep);
+        const response = await Api.get(`/animals/list?${queryParams}`);
         setAnimals(response.data);
       } catch (err) {
         console.error("Erro ao buscar animais:", err);
@@ -73,7 +77,7 @@ const Adopt = () => {
     };
 
     fetchAnimals();
-  }, [cep, filters]);
+  }, [cep, appliedFilters]);
 
   const handleAdoptClick = (animalId) => {
     navigate(`/animal/${animalId}`);
@@ -85,17 +89,10 @@ const Adopt = () => {
         <Title>Lista de Animais</Title>
       </HeaderContainer>
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "2rem",
-        }}
-      >
+      <Container>
         <FilterContainer>
           <Title>Filtros</Title>
 
-          <FilterLabel htmlFor="cep">CEP:</FilterLabel>
           <FilterInput
             id="cep"
             name="cep"
@@ -104,88 +101,71 @@ const Adopt = () => {
             onChange={handleCepChange}
           />
 
-          <FilterLabel htmlFor="type">Tipo:</FilterLabel>
-          <FilterSelect
-            id="type"
-            name="type"
-            value={filters.type}
-            onChange={handleFilterChange}
-          >
-            <option value="">Todos</option>
-            <option value="Cachorro">Cachorro</option>
-            <option value="Gato">Gato</option>
-          </FilterSelect>
+          {["type", "age", "size", "gender"].map((filter) => (
+            <FilterSelect
+              key={filter}
+              id={filter}
+              name={filter}
+              value={filters[filter]}
+              onChange={handleFilterChange}
+            >
+              <option value="">{filter === "type" ? "Tipo" : filter === "age" ? "Idade" : filter === "size" ? "Tamanho" : "Gênero"}</option>
+              {filter === "type" && (
+                <>
+                  <option value="Cachorro">Cachorro</option>
+                  <option value="Gato">Gato</option>
+                  <option value="Ave">Ave</option>
+                  <option value="Outro">Outro</option>
+                </>
+              )}
+              {filter === "age" && (
+                <>
+                  <option value="Filhote">Filhote</option>
+                  <option value="Adulto">Adulto</option>
+                  <option value="Idoso">Idoso</option>
+                </>
+              )}
+              {filter === "size" && (
+                <>
+                  <option value="Pequeno">Pequeno</option>
+                  <option value="Médio">Médio</option>
+                  <option value="Grande">Grande</option>
+                </>
+              )}
+              {filter === "gender" && (
+                <>
+                  <option value="Macho">Macho</option>
+                  <option value="Fêmea">Fêmea</option>
+                </>
+              )}
+            </FilterSelect>
+          ))}
 
-          <FilterLabel htmlFor="age">Idade:</FilterLabel>
-          <FilterSelect
-            id="age"
-            name="age"
-            value={filters.age}
-            onChange={handleFilterChange}
-          >
-            <option value="">Todas</option>
-            <option value="Filhote">Filhote</option>
-            <option value="Adulto">Adulto</option>
-            <option value="Idoso">Idoso</option>
-          </FilterSelect>
-
-          <FilterLabel htmlFor="size">Tamanho:</FilterLabel>
-          <FilterSelect
-            id="size"
-            name="size"
-            value={filters.size}
-            onChange={handleFilterChange}
-          >
-            <option value="">Todos</option>
-            <option value="Pequeno">Pequeno</option>
-            <option value="Médio">Médio</option>
-            <option value="Grande">Grande</option>
-          </FilterSelect>
-
-          <FilterLabel htmlFor="gender">Gênero:</FilterLabel>
-          <FilterSelect
-            id="gender"
-            name="gender"
-            value={filters.gender}
-            onChange={handleFilterChange}
-          >
-            <option value="">Todos</option>
-            <option value="Macho">Macho</option>
-            <option value="Fêmea">Fêmea</option>
-          </FilterSelect>
-
-          <FilterButton onClick={handleApplyFilters}>
-            Aplicar Filtros
-          </FilterButton>
+          <FilterButton onClick={handleApplyFilters}>Aplicar Filtros</FilterButton>
           <ClearFilter onClick={handleClearFilters}>Limpar Filtros</ClearFilter>
         </FilterContainer>
 
         <AnimalListContainer>
-          {animals.map((animal) => (
-            <AnimalCard key={animal.animal_id}>
-              <AnimalImage
-                src={animal.animal_picurl}
-                alt={animal.animal_name}
-              />
-              <AnimalDetails>
-                <span>{animal.user_name}</span>
-                <h3>{animal.animal_name.split(" ")[0]}</h3>
-                <p>
-                  {animal.user_city}, {animal.user_state}
-                </p>
-              </AnimalDetails>
-              <AnimalFooter gender={animal.animal_gender}>
-                <span className="gender">
-                  {animal.animal_gender === "Fêmea" ? "♀" : "♂"}
-                </span>
-                <AdoptButton onClick={() => handleAdoptClick(animal.animal_id)}>
-                  Quero adotar
-                </AdoptButton>
-              </AnimalFooter>
-            </AnimalCard>
-          ))}
+          {animals.length === 0 ? (
+            <p>Nenhum animal encontrado com esses filtros.</p>
+          ) : (
+            animals.map((animal) => (
+              <AnimalCard key={animal.animal_id}>
+                <AnimalImage src={animal.animal_picurl} alt={animal.animal_name} />
+                <AnimalDetails>
+                  <span>{animal.user_name}</span>
+                  <h3>{animal.animal_name.split(" ")[0]}</h3>
+                  <p>{animal.user_city}, {animal.user_state}</p>
+                </AnimalDetails>
+                <AnimalFooter gender={animal.animal_gender}>
+                  <span className="gender">{animal.animal_gender === "Fêmea" ? "♀" : "♂"}</span>
+                  <AdoptButton onClick={() => handleAdoptClick(animal.animal_id)}>Quero adotar</AdoptButton>
+                </AnimalFooter>
+              </AnimalCard>
+            ))
+          )}
         </AnimalListContainer>
-      </div>
+      </Container>
     </div>
   );
 };
