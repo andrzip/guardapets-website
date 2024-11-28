@@ -89,7 +89,7 @@ const Adopt = () => {
         <Title>Lista de Animais</Title>
       </HeaderContainer>
 
-      <Container>
+      <div style={{ display: "flex", justifyContent: "space-between", gap: "2rem" }}>
         <FilterContainer>
           <Title>Filtros</Title>
 
@@ -165,7 +165,7 @@ const Adopt = () => {
             ))
           )}
         </AnimalListContainer>
-      </Container>
+      </div>
     </div>
   );
 };

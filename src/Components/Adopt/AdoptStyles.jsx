@@ -6,6 +6,7 @@ export const Container = styled.div`
   justify-content: "space-between";
   gap: "2rem";
 `;
+
 export const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
