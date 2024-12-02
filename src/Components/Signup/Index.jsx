@@ -61,7 +61,7 @@ const Signup = () => {
 
     try {
       const response = await Api.post("/users/signup", formData);
-      if (response.status !== 200) throw new Error("Erro ao cadastrar usuário");
+      if (response.status !== 200) return new Error("Erro ao cadastrar usuário");
 
       alert("Usuário cadastrado com sucesso!");
       setFormData({

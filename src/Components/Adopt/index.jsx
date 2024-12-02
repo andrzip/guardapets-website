@@ -18,7 +18,6 @@ import {
   ClearFilter,
 } from "./AdoptStyles";
 
-// Função para gerar os parâmetros de consulta
 const buildQueryParams = (filters, cep) => {
   const queryParams = new URLSearchParams();
   Object.entries(filters).forEach(([key, value]) => {
@@ -63,7 +62,6 @@ const Adopt = () => {
     setInputCep("");
   };
 
-  // Efetua a requisição de animais com base nos filtros
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
