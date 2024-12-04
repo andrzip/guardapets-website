@@ -42,9 +42,31 @@ export const FormRow = styled.div`
 export const Input = styled.input`
   width: ${(props) => (props.fullWidth ? '100%' : '50%')};
   ${sharedInputStyles};
-  
-
   border-color: ${(props) => (props.hasError ? 'red' : 'black')};
+`;
+
+export const Dropdown = styled.select`
+  width: ${(props) => (props.fullWidth ? '100%' : '50%')};
+  padding: 0.625rem;
+  border: 0.063rem solid black;
+  border-radius: 0.3125rem;
+  margin-bottom: 0.625rem;
+  outline: none;
+  background-color: white;
+  color: black;
+  font-size: 1rem;
+  text-align: center;
+  
+  border-color: ${(props) => (props.hasError ? 'red' : 'black')};
+
+  &:focus {
+    border-color: #4caf50;
+  }
+
+  &:hover, &:focus {
+    cursor: pointer;
+    background-color: #f1f1f1;
+  }
 `;
 
 export const TextLink = styled.p`

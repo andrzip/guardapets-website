@@ -11,9 +11,9 @@ import {
   FaCity,
   FaMapSigns,
   FaMapPin,
-  FaEdit,
-  FaSave,
   FaSignOutAlt,
+  FaEye,
+  FaEyeSlash,
 } from 'react-icons/fa';
 import {
   ProfileContainer,
@@ -34,10 +34,10 @@ import { AuthContext } from '../../Context/AuthContext';
 import { Api } from '../../Services/ApiConfig';
 
 const Profile = () => {
-  const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({});
   const [animals, setAnimals] = useState([]);
   const [loadingAnimals, setLoadingAnimals] = useState(true);
+  const [passwordVisible, setPasswordVisible] = useState(false); // Controle da visibilidade da senha
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
 
@@ -60,10 +60,18 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  const handleEditToggle = () => setIsEditing(!isEditing);
-
-  const handleInputChange = ({ target: { name, value } }) =>
-    setProfileData((prev) => ({ ...prev, [name]: value }));
+  const handleMarkAsDonated = async (animalId) => {
+    try {
+      await Api.put(`/animals/edit/${animalId}`, { animal_avaliable: 0 }, { withCredentials: true });
+      setAnimals((prevAnimals) =>
+        prevAnimals.filter((animal) => animal.animal_id !== animalId)
+      );
+      alert('Animal marcado como doado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao marcar como doado:', error);
+      alert('Não foi possível marcar o animal como doado. Tente novamente.');
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -73,15 +81,6 @@ const Profile = () => {
       navigate('/');
     } catch (error) {
       console.error('Erro ao sair:', error);
-    }
-  };
-
-  const handleSaveChanges = async () => {
-    try {
-      await Api.put(`/users/edit/${profileData.user_id}`, profileData, { withCredentials: true });
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Erro ao salvar dados:', error);
     }
   };
 
@@ -111,6 +110,15 @@ const Profile = () => {
     user_cep: <FaMapPin />,
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   // Verificação para garantir que profileData está carregado corretamente
   if (!profileData || Object.keys(profileData).length === 0) {
     return <p>Carregando dados do perfil...</p>;
@@ -127,7 +135,6 @@ const Profile = () => {
             key !== 'user_name' &&
             key !== 'user_email' &&
             key !== 'user_phone' &&
-            key !== 'user_state' &&
             (key !== 'user_address' ? (
               <InfoGroup key={key}>
                 <Label>
@@ -135,46 +142,27 @@ const Profile = () => {
                 </Label>
                 <Input
                   name={key}
-                  value={value || ''}
-                  onChange={handleInputChange}
-                  disabled={!isEditing}
-                  type={key === 'user_password' ? 'password' : 'text'}
+                  value={key === 'user_birthdate' ? formatDate(value) : value || ''}
+                  readOnly
+                  type={key === 'user_password' && !passwordVisible ? 'password' : 'text'}
                 />
               </InfoGroup>
             ) : (
-              // Campo de endereço com estado incluído
               <InfoGroup key={key}>
                 <Label>
                   {iconMap['user_address']} {labelMap['user_address']}
                 </Label>
                 <Input
                   name="user_address"
-                  value={`${profileData.user_address || ''} - ${profileData.user_state.toUpperCase() || ''}`}
-                  disabled={!isEditing}
+                  value={`${profileData.user_address || ''}`}
                   readOnly
                 />
-                {isEditing && (
-                  <>
-                    <Label>Editar Endereço</Label>
-                    <Input
-                      name="user_address"
-                      value={profileData.user_address || ''}
-                      onChange={handleInputChange}
-                      placeholder="Endereço"
-                    />
-                    <Input
-                      name="user_state"
-                      value={profileData.user_state || ''}
-                      onChange={handleInputChange}
-                      placeholder="Estado"
-                    />
-                  </>
-                )}
               </InfoGroup>
             ))
           ))}
-          <Button onClick={isEditing ? handleSaveChanges : handleEditToggle}>
-            {isEditing ? <><FaSave /> Salvar Alterações</> : <><FaEdit /> Editar Dados</>}
+          {/* Botão para alternar a visibilidade da senha */}
+          <Button type="button" onClick={() => setPasswordVisible(!passwordVisible)}>
+            {passwordVisible ? <FaEyeSlash /> : <FaEye />} {passwordVisible ? 'Ocultar' : 'Exibir'} Senha
           </Button>
         </Section>
 
@@ -197,8 +185,7 @@ const Profile = () => {
               <Input
                 name="user_email"
                 value={profileData.user_email || ''}
-                onChange={handleInputChange}
-                disabled={!isEditing}
+                readOnly
                 type="email"
               />
             </InfoGroup>
@@ -207,12 +194,11 @@ const Profile = () => {
               <Input
                 name="user_phone"
                 value={profileData.user_phone || ''}
-                onChange={handleInputChange}
-                disabled={!isEditing}
+                readOnly
                 type="tel"
               />
             </InfoGroup>
-            <Button>Criar</Button>
+            <Button>Verificar</Button>
           </Section>
         </div>
       </LayoutGrid>
@@ -224,7 +210,7 @@ const Profile = () => {
           <p>Carregando...</p>
         ) : animals.length > 0 ? (
           <AnimalsList>
-            {animals.map(animal => (
+            {animals.map((animal) => (
               <AnimalCard key={animal.animal_id}>
                 <img src={animal.animal_picurl} alt={animal.animal_name} />
                 <h4>{animal.animal_name}</h4>
@@ -232,6 +218,9 @@ const Profile = () => {
                 <p>Idade: {animal.animal_age}</p>
                 <p>Tamanho: {animal.animal_size}</p>
                 <p>Gênero: {animal.animal_gender}</p>
+                <Button onClick={() => handleMarkAsDonated(animal.animal_id)}>
+                  Já foi adotado!
+                </Button>
               </AnimalCard>
             ))}
           </AnimalsList>

@@ -64,8 +64,8 @@ const Admin = () => {
                 <strong>Classificação:</strong> {animal.animal_type} <br />
                 <strong>Gênero:</strong> {animal.animal_gender} <br />
                 <strong>Estatura:</strong> {animal.animal_size} <br />
-                <strong>Residência:</strong> {animal.animal_address} <br />
-                <strong>CEP:</strong> {animal.animal_cep} <br />
+                <strong>Residência:</strong> {animal.user_address}<br />
+                <strong>CEP:</strong> {animal.user_cep} / ({animal.user_city} - {animal.user_state})<br />
                 <strong>Situação:</strong> {animal.animal_avaliable ? "Disponível" : "Indisponível"}
               </p>
             </AnimalText>
