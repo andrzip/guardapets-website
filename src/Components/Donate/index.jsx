@@ -17,7 +17,6 @@ import {
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-// Schema de validação usando Zod
 const formSchema = z.object({
   animal_name: z.string().nonempty("O campo 'nome' é obrigatório"),
   animal_age: z.string().nonempty("O campo 'idade' é obrigatório"),
@@ -47,7 +46,6 @@ const Donate = () => {
 
   const navigate = useNavigate();
 
-  // Função para atualizar o estado do formulário
   const handleChange = ({ target: { name, value, files } }) => {
     if (name === "animal_picurl" && files) {
       const file = files[0];
@@ -68,7 +66,6 @@ const Donate = () => {
     }));
   };
 
-  // Função para validar os dados do formulário
   const validateForm = () => {
     try {
       formSchema.parse(formData);
@@ -79,7 +76,6 @@ const Donate = () => {
     }
   };
 
-  // Função para lidar com a doação
   const handleDonate = async () => {
     if (!validateForm()) return;
 
@@ -102,7 +98,6 @@ const Donate = () => {
     }
   };
 
-  // Funções auxiliares para simplificar a renderização de campos
   const renderInput = (type, name, placeholder, additionalProps = {}) => (
     <FormRow>
       <Input
